@@ -1,0 +1,60 @@
+.cabecalho-global {
+  background-color: #8b0000; 
+  padding: 20px 40px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+  
+  /* NOVO: Mantém o cabeçalho fixo no topo */
+  position: sticky;
+  top: 0;
+  z-index: 1000; /* Garante que fica por cima de todas as imagens e produtos */
+}
+  
+  .logo-area h1 {
+    font-family: 'Georgia', serif;
+    font-size: 1.8rem;
+    margin: 0;
+    color: #ffffff;
+  }
+  
+  .nav-global {
+    display: flex;
+    gap: 25px;
+  }
+  
+  .nav-link {
+    color: #f1e4e4;
+    text-decoration: none;
+    font-weight: bold;
+    font-size: 1rem;
+    transition: color 0.2s;
+  }
+  
+  .nav-link:hover {
+    color: #ffffff;
+    text-decoration: underline;
+  }
+  
+  .conteudo-principal {
+    min-height: calc(100vh - 160px); /* Garante que o rodapé fica sempre no final da tela */
+    padding-bottom: 40px;
+  }
+  
+  .rodape-global {
+    background-color: #9b1a04;
+    color: #ffffff;
+    text-align: center;
+    padding: 25px;
+    font-size: 0.9rem;
+  }
+  
+  /* Responsividade do Cabeçalho para telemóveis */
+  @media (max-width: 768px) {
+    .cabecalho-global {
+      flex-direction: column;
+      gap: 15px;
+      text-align: center;
+    }
+  }

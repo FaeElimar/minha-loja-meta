@@ -10,4 +10,9 @@ import { RouterOutlet } from '@angular/router';
 })
 export class App {
   title = 'minha-loja-meta';
+
+  alertaEmDesenvolvimento(event: Event): void {
+    event.preventDefault(); // Impede que a página recarregue ao clicar no link
+    alert('Página em desenvolvimento. Estará disponível em breve!');
+  }
 }

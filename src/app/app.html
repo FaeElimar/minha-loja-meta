@@ -1,3 +1,22 @@
-<main>
+<!-- CABEÇALHO GLOBAL -->
+<header class="cabecalho-global">
+  <div class="logo-area">
+    <!-- Aqui entrará a imagem da sua logo no futuro. Por agora, usamos texto. -->
+    <h1>3D Designer</h1>
+  </div>
+  <nav class="nav-global">
+    <a href="/" class="nav-link">Catálogo</a>
+    <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Sobre o Artista</a>
+    <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Contato</a>
+  </nav>
+</header>
+
+<!-- CONTEÚDO DINÂMICO (Aqui entram a Vitrine ou os Detalhes do Produto) -->
+<main class="conteudo-principal">
   <router-outlet></router-outlet>
 </main>
+
+<!-- RODAPÉ GLOBAL -->
+<footer class="rodape-global">
+  <p>&copy; 2026 Elimar Faé | Todos os direitos reservados.</p>
+</footer>
