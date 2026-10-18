@@ -1,0 +1,10 @@
+/* Limpa os espaços mortos que os navegadores colocam por padrão */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+  }
+  
+  body {
+    background-color: #f8f9fa; /* Fundo off-white muito subtil */
+  }

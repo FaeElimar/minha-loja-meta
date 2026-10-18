@@ -1,0 +1,221 @@
+.detalhe-container {
+    max-width: 1000px;
+    margin: 60px auto;
+    padding: 40px;
+    display: flex;
+    gap: 50px;
+    background: #ffffff;
+    border-radius: 8px;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  
+  .coluna-imagem {
+    width: 50%;
+  }
+  
+  .img-destaque {
+    width: 100%;
+    border-radius: 8px;
+    background-color: #f8f9fa;
+    object-fit: cover;
+  }
+  
+  .coluna-info {
+    width: 50%;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+  }
+  
+  .coluna-info h2 {
+    color: #8b0000;
+    font-family: 'Georgia', serif;
+    font-size: 2.2rem;
+    margin-bottom: 20px;
+  }
+  
+  .desc {
+    color: #555;
+    line-height: 1.6;
+    font-size: 1.1rem;
+    margin-bottom: 30px;
+  }
+  
+  .preco {
+    font-size: 2rem;
+    font-weight: bold;
+    color: #111;
+    margin-bottom: 40px;
+  }
+  
+  .btn-comprar-agora {
+    background-color: #27ae60;
+    color: #fff;
+    border: none;
+    padding: 18px;
+    font-size: 1.2rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+    box-shadow: 0 4px 6px rgba(39, 174, 96, 0.3);
+  }
+  
+  .btn-comprar-agora:hover {
+    background-color: #219150;
+  }
+  
+  .seguranca {
+    margin-top: 15px;
+    font-size: 0.85rem;
+    color: #888;
+    text-align: center;
+  }
+  
+  @media (max-width: 768px) {
+    .detalhe-container {
+      flex-direction: column;
+      padding: 20px;
+      margin: 20px;
+    }
+    .coluna-imagem, .coluna-info {
+      width: 100%;
+    }
+  }
+
+  /* Estilos da Caixa de Frete */
+.calculo-frete {
+    margin-bottom: 30px;
+    padding: 20px;
+    background-color: #fcf9f9; /* Fundo suave */
+    border-radius: 6px;
+    border: 1px solid #f1e4e4;
+  }
+  
+  .calculo-frete label {
+    display: block;
+    font-size: 0.95rem;
+    color: #333;
+    margin-bottom: 12px;
+    font-weight: bold;
+  }
+  
+  .frete-input-group {
+    display: flex;
+    gap: 10px;
+  }
+  
+  .frete-input-group input {
+    flex-grow: 1;
+    padding: 14px;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    font-size: 1rem;
+  }
+  
+  .frete-input-group input:focus {
+    outline: none;
+    border-color: #8b0000;
+  }
+  
+  .btn-frete {
+    background-color: #333;
+    color: #fff;
+    border: none;
+    padding: 0 25px;
+    border-radius: 4px;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-frete:hover {
+    background-color: #555;
+  }
+  
+  .frete-resultado {
+    margin-top: 15px;
+    font-size: 0.95rem;
+    color: #8b0000;
+    font-weight: bold;
+  }
+
+  /* Estilos dos Novos Botões */
+.grupo-botoes {
+    display: flex;
+    flex-direction: column;
+    gap: 15px;
+    margin-bottom: 10px;
+  }
+  
+  .btn-carrinho {
+    background-color: #ffffff;
+    color: #111;
+    border: 2px solid #111;
+    padding: 16px;
+    font-size: 1.1rem;
+    font-weight: bold;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-carrinho:hover {
+    background-color: #f1f1f1;
+  }
+  
+  /* Ajuste para o telemóvel: lado a lado se houver espaço, ou empilhados */
+  @media (max-width: 768px) {
+    .grupo-botoes {
+      flex-direction: column;
+    }
+  }
+
+  /* Estilos do Seletor de Quantidade */
+.controle-quantidade {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    margin-bottom: 25px;
+  }
+  
+  .qtd-label {
+    font-weight: bold;
+    color: #333;
+    font-size: 1rem;
+  }
+  
+  .qtd-seletor {
+    display: flex;
+    align-items: center;
+    border: 1px solid #ddd;
+    border-radius: 4px;
+    overflow: hidden;
+  }
+  
+  .btn-qtd {
+    background-color: #f8f9fa;
+    border: none;
+    color: #333;
+    font-size: 1.2rem;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    transition: background-color 0.2s;
+  }
+  
+  .btn-qtd:hover {
+    background-color: #e9ecef;
+  }
+  
+  .input-qtd {
+    width: 50px;
+    height: 40px;
+    border: none;
+    border-left: 1px solid #ddd;
+    border-right: 1px solid #ddd;
+    text-align: center;
+    font-size: 1.1rem;
+    font-weight: bold;
+    color: #111;
+  }

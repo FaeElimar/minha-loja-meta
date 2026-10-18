@@ -1,0 +1,45 @@
+<div class="nav-superior" *ngIf="produto">
+    <a href="/" class="btn-voltar-vitrine">← Continuar Comprando</a>
+  </div>
+  
+  <div class="detalhe-container" *ngIf="produto">
+    <div class="coluna-imagem">
+      <img [src]="produto.image_link" [alt]="produto.title" class="img-destaque">
+    </div>
+    
+    <div class="coluna-info">
+      <h2>{{ produto.title }}</h2>
+      <p class="desc">{{ produto.description }}</p>
+      <span class="preco">{{ produto.price }}</span>
+      
+      <div class="calculo-frete">
+        <label for="cep">Calcular Frete e Prazo:</label>
+        <div class="frete-input-group">
+          <input type="text" id="cep" #cepInput placeholder="Digite seu CEP" maxlength="9">
+          <button (click)="calcularFrete(cepInput.value)" class="btn-frete">OK</button>
+        </div>
+        <p class="frete-resultado" *ngIf="valorFrete">{{ valorFrete }}</p>
+      </div>
+      
+      <!-- NOVO: Seletor de Quantidade -->
+      <div class="controle-quantidade">
+        <span class="qtd-label">Quantidade:</span>
+        <div class="qtd-seletor">
+          <button (click)="diminuirQuantidade()" class="btn-qtd">-</button>
+          <input type="text" [value]="quantidade" readonly class="input-qtd">
+          <button (click)="aumentarQuantidade()" class="btn-qtd">+</button>
+        </div>
+      </div>
+      
+      <div class="grupo-botoes">
+        <button (click)="adicionarCarrinho()" class="btn-carrinho">🛒 ADICIONAR AO CARRINHO</button>
+        <button (click)="comprar()" class="btn-comprar-agora">💳 COMPRAR AGORA</button>
+      </div>
+      <p class="seguranca">Ambiente 100% seguro.</p>
+    </div>
+  </div>
+  
+  <div class="erro-container" *ngIf="!produto">
+    <h2>Produto não encontrado.</h2>
+    <a href="/" class="btn-voltar">Voltar à Vitrine</a>
+  </div>

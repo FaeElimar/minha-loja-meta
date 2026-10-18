@@ -1,0 +1,22 @@
+<section class="vitrine-container">
+  <h2>Catálogo de Obras</h2>
+  
+  <div class="grid-produtos">
+    @for (produto of listaDeProdutos; track produto.id) {
+      <article class="card-produto">
+        <img [src]="produto.image_link" [alt]="produto.title" class="img-fluida">
+        
+        <div class="info-produto">
+          <h3>{{ produto.title }}</h3>
+          <p class="descricao">{{ produto.description }}</p>
+          <span class="preco">{{ produto.price }}</span>
+        </div>
+        
+        <!-- Botão transformado em link dinâmico -->
+        <a [href]="'/produto/' + produto.id" class="btn-comprar">VER DETALHES</a>
+      </article>
+    } @empty {
+      <p>Nenhum produto cadastrado no momento.</p>
+    }
+  </div>
+</section>

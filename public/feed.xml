@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<rss version="2.0" xmlns:g="http://base.google.com/ns/1.0">
+  <channel>
+    <title>Catálogo da Loja</title>
+    <link>https://seusite.com.br</link>
+    <description>Catálogo de produtos integrado ao Instagram/Facebook</description>
+
+    <item>
+      <g:id>NAT-001</g:id>
+      <g:title><![CDATA[Presépio Sagrada Família - Miniatura 3D Colecionável]]></g:title>
+      <g:description><![CDATA[Presépio exclusivo em 3D, finalizado com pintura em aerografia e detalhes em dourado. Peça resistente, ideal para decoração natalina de destaque.]]></g:description>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>280.00 BRL</g:price>
+      <g:link>https://seusite.com.br/produto/nat-001</g:link>
+      <g:image_link>https://seusite.com.br/imagens/nat-001.jpg</g:image_link>
+      <g:brand><![CDATA[Studio Elimar]]></g:brand>
+    </item>
+    <item>
+      <g:id>NAT-002</g:id>
+      <g:title><![CDATA[Kit Bolas de Natal com Caligrafia em Nanquim]]></g:title>
+      <g:description><![CDATA[Conjunto de 4 bolas de Natal personalizadas à mão com bico de pena e nanquim. Letras clássicas e desenhos minimalistas para uma árvore sofisticada.]]></g:description>
+      <g:availability>in stock</g:availability>
+      <g:condition>new</g:condition>
+      <g:price>150.00 BRL</g:price>
+      <g:link>https://seusite.com.br/produto/nat-002</g:link>
+      <g:image_link>https://seusite.com.br/imagens/nat-002.jpg</g:image_link>
+      <g:brand><![CDATA[Studio Elimar]]></g:brand>
+    </item>
+  </channel>
+</rss>
