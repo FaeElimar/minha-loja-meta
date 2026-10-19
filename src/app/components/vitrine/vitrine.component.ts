@@ -1,11 +1,12 @@
 import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
+import { RouterLink } from '@angular/router'; // NOVO: Importamos o RouterLink
 import { ProdutoService, ProdutoMeta } from '../../services/produto';
 
 @Component({
   selector: 'app-vitrine',
   standalone: true,
-  imports: [CommonModule],
+  imports: [CommonModule, RouterLink], // NOVO: Ativamos o RouterLink aqui
   templateUrl: './vitrine.component.html',
   styleUrls: ['./vitrine.component.css']
 })

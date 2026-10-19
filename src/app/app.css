@@ -58,3 +58,17 @@
       text-align: center;
     }
   }
+
+  .nav-carrinho {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+  }
+  .badge {
+    background-color: #ffffff;
+    color: #8b0000;
+    padding: 2px 8px;
+    border-radius: 12px;
+    font-size: 0.85rem;
+    font-weight: bold;
+  }
