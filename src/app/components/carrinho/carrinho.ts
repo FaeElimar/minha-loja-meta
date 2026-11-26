@@ -1,17 +1,20 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, inject } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
+import { CarrinhoService, ItemCarrinho } from '../../services/carrinho.service'; // ajuste o caminho se necessário
 
 @Component({
   selector: 'app-carrinho',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './carrinho.html',
-  styleUrl: './carrinho.scss', // altere para './carrinho.css' se o arquivo terminar em .css
+  styleUrl: './carrinho.scss',
 })
 export class Carrinho implements OnInit {
-  itens: any[] = [];
+  private carrinhoService = inject(CarrinhoService);
+
+  itens: ItemCarrinho[] = [];
 
   nomeCliente = '';
   cep = '';
@@ -51,16 +54,11 @@ export class Carrinho implements OnInit {
   ];
 
   ngOnInit(): void {
-    this.carregarItens();
+    this.atualizarItens();
   }
 
-  private carregarItens(): void {
-    const salvo = localStorage.getItem('carrinho_3ddesign');
-    this.itens = salvo ? JSON.parse(salvo) : [];
-  }
-
-  private salvarItens(): void {
-    localStorage.setItem('carrinho_3ddesign', JSON.stringify(this.itens));
+  private atualizarItens(): void {
+    this.itens = this.carrinhoService.obterItens();
   }
 
   converterPreco(price: string | number): number {
@@ -84,19 +82,19 @@ export class Carrinho implements OnInit {
     return this.subtotal + (this.freteCalculado ? this.frete : 0);
   }
 
-  alterarQuantidade(item: any, delta: number): void {
+  alterarQuantidade(item: ItemCarrinho, delta: number): void {
     const novaQtd = (item.quantidade || 1) + delta;
     if (novaQtd <= 0) {
       this.removerItem(item.produto.id);
       return;
     }
     item.quantidade = novaQtd;
-    this.salvarItens();
+    this.atualizarItens();
   }
 
-  removerItem(id: string | number): void {
-    this.itens = this.itens.filter((i) => i.produto.id !== id);
-    this.salvarItens();
+  removerItem(produtoId: string): void {
+    this.carrinhoService.remover(produtoId);
+    this.atualizarItens();
   }
 
   aoAlterarCep(): void {
