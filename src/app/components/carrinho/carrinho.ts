@@ -8,9 +8,9 @@ import { RouterLink } from '@angular/router';
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './carrinho.html',
-  styleUrls: ['./carrinho.css'],
+  styleUrl: './carrinho.scss', // altere para './carrinho.css' se o arquivo terminar em .css
 })
-export class CarrinhoComponent implements OnInit {
+export class Carrinho implements OnInit {
   itens: any[] = [];
 
   nomeCliente = '';
@@ -55,7 +55,6 @@ export class CarrinhoComponent implements OnInit {
   }
 
   private carregarItens(): void {
-    // Mantém a mesma fonte de itens do carrinho (ex.: localStorage ou carrinhoService)
     const salvo = localStorage.getItem('carrinho_3ddesign');
     this.itens = salvo ? JSON.parse(salvo) : [];
   }
@@ -160,7 +159,6 @@ export class CarrinhoComponent implements OnInit {
         cepLimpo.startsWith('8805') ||
         cepLimpo.startsWith('8806'));
 
-    // Mesma norma do detalhe do produto: Norte da Ilha / Rio Vermelho com entrega gratuita
     if (ehNorteDaIlha) {
       this.frete = 0;
       this.descricaoFrete = 'Entrega Grátis — Norte da Ilha (1 a 2 dias úteis)';
@@ -226,7 +224,7 @@ export class CarrinhoComponent implements OnInit {
       `*Total:* R$ ${this.totalGeral.toFixed(2)}`,
     ].join('\n');
 
-    const telefone = '5548991964822'; // Substitua pelo número oficial com DDI+DDD se necessário
+    const telefone = '5548991964822'; // Coloque o seu número real aqui
     const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
     window.open(url, '_blank', 'noopener,noreferrer');
   }
