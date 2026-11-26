@@ -114,23 +114,26 @@ export class Carrinho {
     this.freteCalculado = true;
   }
 
-  finalizarWhatsApp(): void {
+finalizarWhatsApp(): void {
     this.erroNome = '';
     this.erroCep = '';
+    let temErro = false;
 
     if (!this.nomeCliente || !this.nomeCliente.trim()) {
       this.erroNome = 'Por favor, informe o seu nome.';
-      return;
+      temErro = true;
     }
 
     const cepLimpo = this.cep.replace(/\D/g, '');
     if (cepLimpo.length !== 8) {
       this.erroCep = 'O CEP é obrigatório. Informe 8 dígitos para calcular o frete.';
-      return;
+      temErro = true;
+    } else if (!this.freteCalculado) {
+      this.erroCep = 'Clique em "Calcular" para confirmar o CEP e o frete antes de finalizar.';
+      temErro = true;
     }
 
-    if (!this.freteCalculado) {
-      this.erroCep = 'Clique em "Calcular" para confirmar o CEP e o frete antes de finalizar.';
+    if (temErro) {
       return;
     }
 
