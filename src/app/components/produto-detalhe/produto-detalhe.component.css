@@ -702,3 +702,75 @@
   margin-bottom: -40px;
   border-bottom: 2mm solid #c9a24d;
 }
+
+.frete-box {
+  width: 100%;
+  margin: 12px 0;
+}
+
+.frete-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.frete-topo label {
+  font-weight: 600;
+  margin: 0;
+}
+
+.obrigatorio {
+  color: #c0392b;
+}
+
+.link-esqueci-cep {
+  font-size: 0.85rem;
+  color: #1d4ed8;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.cep-grupo {
+  display: flex;
+  align-items: stretch;
+  gap: 8px;
+  width: 100%;
+}
+
+.cep-grupo input {
+  flex: 1;
+  min-width: 0;
+  height: 40px;
+  padding: 0 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 4px;
+  box-sizing: border-box;
+}
+
+.btn-ok-cep {
+  height: 40px;
+  padding: 0 16px;
+  background-color: #1f2937;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-weight: 600;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+}
+
+.btn-ok-cep:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.erro-texto {
+  display: block;
+  margin-top: 6px;
+  color: #c0392b;
+  font-size: 0.82rem;
+  font-weight: 500;
+}

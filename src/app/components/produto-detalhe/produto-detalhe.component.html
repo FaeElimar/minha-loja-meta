@@ -55,35 +55,29 @@
       <div class="frete-input-group">
         <input type="text" id="cep" #cepInput placeholder="Digite seu CEP" maxlength="9">
         <div class="frete-box">
-  <div class="frete-topo">
-    <label for="cepProduto">Calcular Frete e Prazo: <span class="obrigatorio">*</span></label>
-    <a
-      href="https://buscacepinter.correios.com.br/app/endereco/index.php"
-      target="_blank"
-      rel="noopener noreferrer"
-      class="link-esqueci-cep">
-      Esqueci meu CEP
-    </a>
-  </div>
+          <div class="frete-topo">
+            <label for="cepProduto">Calcular Frete e Prazo: <span class="obrigatorio">*</span></label>
+            <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank"
+              rel="noopener noreferrer" class="link-esqueci-cep">
+              Esqueci meu CEP
+            </a>
+          </div>
 
-  <div class="cep-grupo">
-    <input
-      id="cepProduto"
-      type="text"
-      [(ngModel)]="cep"
-      (ngModelChange)="aoAlterarCep()"
-      placeholder="Digite seu CEP"
-      maxlength="9"
-      required>
-    <button type="button" (click)="calcularFrete()" [disabled]="buscandoCep">
-      {{ buscandoCep ? '...' : 'OK' }}
-    </button>
-  </div>
+          <div class="cep-grupo">
+            <input id="cepProduto" type="text" [(ngModel)]="cep" (ngModelChange)="aoAlterarCep()"
+              placeholder="Digite seu CEP" maxlength="9" required>
+            <button type="button" class="btn-ok-cep" (click)="calcularFrete()" [disabled]="buscandoCep">
+              {{ buscandoCep ? '...' : 'OK' }}
+            </button>
+          </div>
 
-  @if (erroCep) {
-    <span class="erro-texto">{{ erroCep }}</span>
-  }
-</div>
+          @if (erroCep) {
+          <span class="erro-texto">{{ erroCep }}</span>
+          }
+          @if (erroCepComprar) {
+          <span class="erro-texto">{{ erroCepComprar }}</span>
+          }
+        </div>
         <button (click)="calcularFrete(cepInput.value)" class="btn-frete">OK</button>
       </div>
       <p class="frete-resultado" *ngIf="valorFrete">{{ valorFrete }}</p>
@@ -120,8 +114,8 @@
     </div>
 
     @if (erroCepComprar) {
-  <span class="erro-texto">{{ erroCepComprar }}</span>
-}
+    <span class="erro-texto">{{ erroCepComprar }}</span>
+    }
 
     <p class="seguranca">Ambiente 100% seguro.</p>
   </div>
