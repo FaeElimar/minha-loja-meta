@@ -2,111 +2,105 @@
   <h2>Seu Carrinho</h2>
 
   @if (itens.length === 0) {
-    <div class="carrinho-vazio">
-      <p>Seu carrinho está vazio no momento.</p>
-      <a routerLink="/" class="btn-voltar">Explorar Produtos</a>
-    </div>
+  <div class="carrinho-vazio">
+    <p>Seu carrinho está vazio no momento.</p>
+    <a routerLink="/" class="btn-voltar">Explorar Produtos</a>
+  </div>
   } @else {
-    <div class="carrinho-grid">
-      <!-- LISTA DE ITENS -->
-      <div class="lista-itens">
-        @for (item of itens; track item.produto.id) {
-          <div class="item-card">
-            <img [src]="item.produto.image_link" [alt]="item.produto.title" class="item-img">
-            
-            <div class="item-info">
-              <h3>{{ item.produto.title }}</h3>
-              <span class="item-preco">
-                R$ {{ converterPreco(item.produto.price) | number:'1.2-2' }}
-              </span>
-            </div>
+  <div class="carrinho-grid">
+    <!-- LISTA DE ITENS -->
+    <div class="lista-itens">
+      @for (item of itens; track item.produto.id) {
+      <div class="item-card">
+        <img [src]="item.produto.image_link" [alt]="item.produto.title" class="item-img">
 
-            <div class="item-acoes">
-              <div class="qtd-controle">
-                <button type="button" (click)="alterarQuantidade(item, -1)">−</button>
-                <span>{{ item.quantidade }}</span>
-                <button type="button" (click)="alterarQuantidade(item, 1)">+</button>
-              </div>
-              <button type="button" class="btn-remover" (click)="removerItem(item.produto.id)">Remover</button>
-            </div>
+        <div class="item-info">
+          <h3>{{ item.produto.title }}</h3>
+          <span class="item-preco">
+            R$ {{ converterPreco(item.produto.price) | number:'1.2-2' }}
+          </span>
+        </div>
+
+        <div class="item-acoes">
+          <div class="qtd-controle">
+            <button type="button" (click)="alterarQuantidade(item, -1)">−</button>
+            <span>{{ item.quantidade }}</span>
+            <button type="button" (click)="alterarQuantidade(item, 1)">+</button>
           </div>
+          <button type="button" class="btn-remover" (click)="removerItem(item.produto.id)">Remover</button>
+        </div>
+      </div>
+      }
+    </div>
+
+    <!-- RESUMO E FRETE -->
+    <aside class="resumo-box">
+      <h3>Resumo do Pedido</h3>
+
+      <div class="campo">
+        <label for="nomeCliente">Seu Nome <span class="obrigatorio">*</span></label>
+        <input id="nomeCliente" type="text" [(ngModel)]="nomeCliente" placeholder="Ex: Maria Silva" required>
+        @if (erroNome) {
+        <span class="erro-texto">{{ erroNome }}</span>
         }
       </div>
 
-      <!-- RESUMO E FRETE -->
-      <aside class="resumo-box">
-        <h3>Resumo do Pedido</h3>
-
-        <div class="campo">
-          <label for="nomeCliente">Seu Nome <span class="obrigatorio">*</span></label>
-          <input
-            id="nomeCliente"
-            type="text"
-            [(ngModel)]="nomeCliente"
-            placeholder="Ex: Maria Silva"
-            required>
-          @if (erroNome) {
-            <span class="erro-texto">{{ erroNome }}</span>
-          }
+      <div class="campo">
+        <div class="cep-label-linha">
+          <label for="cep">CEP para entrega <span class="obrigatorio">*</span></label>
+          <a href="https://buscacepinter.correios.com.br/app/endereco/index.php" target="_blank"
+            rel="noopener noreferrer" class="link-esqueci-cep">
+            Esqueci meu CEP
+          </a>
         </div>
-
-        <div class="campo">
-          <div class="cep-label-linha">
-            <label for="cep">CEP para entrega <span class="obrigatorio">*</span></label>
-            <a
-              href="https://buscacepinter.correios.com.br/app/endereco/index.php"
-              target="_blank"
-              rel="noopener noreferrer"
-              class="link-esqueci-cep">
-              Esqueci meu CEP
-            </a>
-          </div>
-          <div class="cep-grupo">
-            <input
-              id="cep"
-              type="text"
-              [(ngModel)]="cep"
-              (ngModelChange)="aoAlterarCep()"
-              placeholder="00000-000"
-              maxlength="9"
-              required>
-            <button type="button" (click)="buscarCep()" [disabled]="buscandoCep">
-              {{ buscandoCep ? '...' : 'Calcular' }}
-            </button>
-          </div>
-          @if (erroCep) {
-            <span class="erro-texto">{{ erroCep }}</span>
-          }
+        <div class="cep-grupo">
+          <input id="cep" type="text" [(ngModel)]="cep" (ngModelChange)="aoAlterarCep()" placeholder="00000-000"
+            maxlength="9" required>
+          <button type="button" (click)="buscarCep()" [disabled]="buscandoCep">
+            {{ buscandoCep ? '...' : 'Calcular' }}
+          </button>
         </div>
-
-        @if (freteCalculado) {
-          <div class="endereco-box">
-            <p><strong>{{ rua }}</strong> — {{ bairro }}</p>
-            <p>{{ cidade }} / {{ uf }}</p>
-            <input type="text" [(ngModel)]="numero" placeholder="Número e complemento (ex: 120, Apto 302)">
-          </div>
+        @if (erroCep) {
+        <span class="erro-texto">{{ erroCep }}</span>
         }
+      </div>
 
-        <div class="totais">
-          <div class="linha-total">
-            <span>Subtotal</span>
-            <span>R$ {{ subtotal | number:'1.2-2' }}</span>
-          </div>
-          <div class="linha-total">
-            <span>Frete</span>
-            <span>{{ freteCalculado ? ('R$ ' + (frete | number:'1.2-2')) : 'Informe o CEP' }}</span>
-          </div>
-          <div class="linha-total destaque">
-            <span>Total</span>
-            <span>R$ {{ totalGeral | number:'1.2-2' }}</span>
-          </div>
+      @if (freteCalculado) {
+      <div class="endereco-box">
+        <p><strong>{{ rua }}</strong> — {{ bairro }}</p>
+        <p>{{ cidade }} / {{ uf }}</p>
+        <input type="text" [(ngModel)]="numero" placeholder="Número e complemento (ex: 120, Apto 302)">
+      </div>
+      }
+
+      <div class="totais">
+        <div class="linha-total">
+          <span>Subtotal</span>
+          <span>R$ {{ subtotal | number:'1.2-2' }}</span>
         </div>
+        <div class="linha-total">
+          <span>Frete</span>
+          <span>
+            @if (!freteCalculado) {
+            Informe o CEP
+            } @else if (frete === 0) {
+            Grátis
+            } @else {
+            R$ {{ frete | number:'1.2-2' }}
+            }
+          </span>
+        </div>
+        <div class="linha-total destaque">
+          <span>Total</span>
+          <span>R$ {{ totalGeral | number:'1.2-2' }}</span>
+        </div>
+      </div>
 
-        <button type="button" class="btn-whatsapp" (click)="finalizarWhatsApp()">
-          Finalizar Pedido no WhatsApp
-        </button>
-        <p class="aviso-pix">Pagamento facilitado via PIX diretamente no atendimento.</p>
-      </aside>
-    </div>
+      <button type="button" class="btn-whatsapp" (click)="finalizarWhatsApp()">
+        Finalizar Pedido no WhatsApp
+      </button>
+      <p class="aviso-pix">Pagamento facilitado via PIX diretamente no atendimento.</p>
+    </aside>
+  </div>
   }
 </section>

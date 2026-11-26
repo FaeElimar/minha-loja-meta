@@ -1,85 +1,123 @@
-import { Component, inject } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { RouterLink } from '@angular/router';
-import { CarrinhoService, ItemCarrinho } from '../../services/carrinho.service';
 
 @Component({
   selector: 'app-carrinho',
   standalone: true,
   imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './carrinho.html',
-  styleUrl: './carrinho.scss',
+  styleUrls: ['./carrinho.css'],
 })
-export class Carrinho {
-  private carrinhoService = inject(CarrinhoService);
+export class CarrinhoComponent implements OnInit {
+  itens: any[] = [];
 
-  // Dados do cliente e entrega
   nomeCliente = '';
   cep = '';
-  rua = '';
   numero = '';
+
+  rua = '';
   bairro = '';
   cidade = '';
   uf = '';
 
-  frete = 0;
-  freteCalculado = false;
   buscandoCep = false;
+  freteCalculado = false;
+  frete = 0;
+  descricaoFrete = '';
+
   erroNome = '';
   erroCep = '';
 
-  get itens(): ItemCarrinho[] {
-    return this.carrinhoService.obterItens();
+  private readonly bairrosNorteDaIlha = [
+    'rio vermelho',
+    'ingleses',
+    'santinho',
+    'canasvieiras',
+    'jurere',
+    'jurerê',
+    'cachoeira',
+    'ponta das canas',
+    'daniela',
+    'ratones',
+    'sto. antonio',
+    'sto. antônio',
+    'santo antonio',
+    'santo antônio',
+    'sambaqui',
+    'cacupe',
+    'cacupé',
+  ];
+
+  ngOnInit(): void {
+    this.carregarItens();
   }
 
-  // Converte "49.90 BRL" ou "R$ 49,90" em número
-  converterPreco(precoTexto: string): number {
-    const limpo = precoTexto.replace(/[^\d.,]/g, '').replace(',', '.');
-    return parseFloat(limpo) || 0;
+  private carregarItens(): void {
+    // Mantém a mesma fonte de itens do carrinho (ex.: localStorage ou carrinhoService)
+    const salvo = localStorage.getItem('carrinho_3ddesign');
+    this.itens = salvo ? JSON.parse(salvo) : [];
+  }
+
+  private salvarItens(): void {
+    localStorage.setItem('carrinho_3ddesign', JSON.stringify(this.itens));
+  }
+
+  converterPreco(price: string | number): number {
+    if (typeof price === 'number') return price;
+    const limpo = String(price)
+      .replace(/[^\d,.-]/g, '')
+      .replace(/\.(?=\d{3}(?:,|$))/g, '')
+      .replace(',', '.');
+    const valor = parseFloat(limpo);
+    return Number.isNaN(valor) ? 0 : valor;
   }
 
   get subtotal(): number {
     return this.itens.reduce(
-      (total, item) => total + this.converterPreco(item.produto.price) * item.quantidade,
+      (acc, item) => acc + this.converterPreco(item.produto.price) * (item.quantidade || 1),
       0,
     );
   }
 
   get totalGeral(): number {
-    return this.subtotal + this.frete;
+    return this.subtotal + (this.freteCalculado ? this.frete : 0);
   }
 
-  alterarQuantidade(item: ItemCarrinho, delta: number): void {
-    const novaQtd = item.quantidade + delta;
+  alterarQuantidade(item: any, delta: number): void {
+    const novaQtd = (item.quantidade || 1) + delta;
     if (novaQtd <= 0) {
-      this.carrinhoService.remover(item.produto.id);
-    } else {
-      item.quantidade = novaQtd;
+      this.removerItem(item.produto.id);
+      return;
     }
+    item.quantidade = novaQtd;
+    this.salvarItens();
   }
 
-  removerItem(produtoId: string): void {
-    this.carrinhoService.remover(produtoId);
+  removerItem(id: string | number): void {
+    this.itens = this.itens.filter((i) => i.produto.id !== id);
+    this.salvarItens();
   }
 
   aoAlterarCep(): void {
+    this.erroCep = '';
     this.freteCalculado = false;
     this.frete = 0;
-    this.erroCep = '';
+    this.descricaoFrete = '';
   }
 
   async buscarCep(): Promise<void> {
-    const cepLimpo = this.cep.replace(/\D/g, '');
+    this.erroCep = '';
+    const cepLimpo = (this.cep || '').replace(/\D/g, '');
+
     if (cepLimpo.length !== 8) {
-      this.erroCep = 'Digite um CEP válido com 8 números.';
+      this.erroCep = 'Digite um CEP válido com 8 dígitos.';
       this.freteCalculado = false;
       return;
     }
 
     this.buscandoCep = true;
-    this.erroCep = '';
-
     try {
       const resposta = await fetch(`https://viacep.com.br/ws/${cepLimpo}/json/`);
       const dados = await resposta.json();
@@ -87,77 +125,109 @@ export class Carrinho {
       if (dados.erro) {
         this.erroCep = 'CEP não encontrado.';
         this.freteCalculado = false;
-      } else {
-        this.rua = dados.logradouro || '';
-        this.bairro = dados.bairro || '';
-        this.cidade = dados.localidade || '';
-        this.uf = dados.uf || '';
-        this.calcularFretePorEstado(this.uf);
+        return;
       }
+
+      this.rua = dados.logradouro || 'Endereço via CEP';
+      this.bairro = dados.bairro || '';
+      this.cidade = dados.localidade || '';
+      this.uf = dados.uf || '';
+
+      this.aplicarRegraFreteUnificada(cepLimpo, this.bairro, this.cidade, this.uf);
+      this.freteCalculado = true;
     } catch {
-      this.erroCep = 'Erro ao consultar o CEP. Tente novamente.';
+      this.erroCep = 'Não foi possível consultar o CEP agora. Tente novamente.';
       this.freteCalculado = false;
     } finally {
       this.buscandoCep = false;
     }
   }
 
-  // Ajuste os valores de frete conforme a sua preferência
-  private calcularFretePorEstado(uf: string): void {
-    if (uf === 'SC') {
-      this.frete = 18.0;
-    } else if (['PR', 'RS', 'SP', 'RJ', 'MG', 'ES'].includes(uf)) {
-      this.frete = 28.0;
-    } else {
-      this.frete = 38.0;
-    }
-    this.freteCalculado = true;
-  }
+  private aplicarRegraFreteUnificada(
+    cepLimpo: string,
+    bairro: string,
+    cidade: string,
+    uf: string,
+  ): void {
+    const cidadeNorm = (cidade || '').trim().toLowerCase();
+    const bairroNorm = (bairro || '').trim().toLowerCase();
+    const ufNorm = (uf || '').trim().toUpperCase();
 
-finalizarWhatsApp(): void {
-    this.erroNome = '';
-    this.erroCep = '';
-    let temErro = false;
+    const ehFlorianopolis = cidadeNorm === 'florianópolis' || cidadeNorm === 'florianopolis';
+    const ehNorteDaIlha =
+      ehFlorianopolis &&
+      (this.bairrosNorteDaIlha.some((b) => bairroNorm.includes(b)) ||
+        cepLimpo.startsWith('8805') ||
+        cepLimpo.startsWith('8806'));
 
-    if (!this.nomeCliente || !this.nomeCliente.trim()) {
-      this.erroNome = 'Por favor, informe o seu nome.';
-      temErro = true;
-    }
-
-    const cepLimpo = this.cep.replace(/\D/g, '');
-    if (cepLimpo.length !== 8) {
-      this.erroCep = 'O CEP é obrigatório. Informe 8 dígitos para calcular o frete.';
-      temErro = true;
-    } else if (!this.freteCalculado) {
-      this.erroCep = 'Clique em "Calcular" para confirmar o CEP e o frete antes de finalizar.';
-      temErro = true;
-    }
-
-    if (temErro) {
+    // Mesma norma do detalhe do produto: Norte da Ilha / Rio Vermelho com entrega gratuita
+    if (ehNorteDaIlha) {
+      this.frete = 0;
+      this.descricaoFrete = 'Entrega Grátis — Norte da Ilha (1 a 2 dias úteis)';
       return;
     }
 
-    const telefoneLoja = '5548991964822';
+    if (ehFlorianopolis) {
+      this.frete = 12;
+      this.descricaoFrete = 'Entrega Florianópolis';
+      return;
+    }
 
-    let mensagem = `*NOVO PEDIDO - 3DDESIGNER (NATAL 2026)*\n\n`;
-    mensagem += `*Cliente:* ${this.nomeCliente.trim()}\n`;
-    mensagem += `\n*Itens do Pedido:*\n`;
+    if (ufNorm === 'SC') {
+      this.frete = 18;
+      this.descricaoFrete = 'Envio Santa Catarina';
+      return;
+    }
 
-    this.itens.forEach((item) => {
-      const precoUnit = this.converterPreco(item.produto.price);
-      const sub = (precoUnit * item.quantidade).toFixed(2).replace('.', ',');
-      mensagem += `• ${item.quantidade}x ${item.produto.title} — R$ ${sub}\n`;
-    });
+    this.frete = 25;
+    this.descricaoFrete = 'Envio Nacional';
+  }
 
-    mensagem += `\n*Subtotal:* R$ ${this.subtotal.toFixed(2).replace('.', ',')}`;
-    mensagem += `\n*Frete (${this.cidade}/${this.uf}):* R$ ${this.frete.toFixed(2).replace('.', ',')}`;
-    mensagem += `\n*TOTAL: R$ ${this.totalGeral.toFixed(2).replace('.', ',')}*\n`;
+  finalizarWhatsApp(): void {
+    this.erroNome = '';
+    this.erroCep = '';
 
-    mensagem += `\n*Endereço de Entrega:*\n${this.rua}, nº ${this.numero || 'S/N'} - ${this.bairro}\n${this.cidade}/${this.uf} - CEP: ${this.cep}\n`;
+    const nomeTrim = (this.nomeCliente || '').trim();
+    if (!nomeTrim) {
+      this.erroNome = 'Informe seu nome para finalizar o pedido.';
+    }
 
-    mensagem += `\nGostaria de confirmar o pedido e receber a chave PIX para pagamento.`;
+    if (!this.freteCalculado) {
+      this.erroCep = 'Calcule o CEP para conferir o frete antes de enviar.';
+    }
 
-    const url = `https://wa.me/${telefoneLoja}?text=${encodeURIComponent(mensagem)}`;
-    window.open(url, '_blank');
+    if (this.erroNome || this.erroCep) {
+      return;
+    }
+
+    const linhasItens = this.itens
+      .map(
+        (item) =>
+          `• ${item.quantidade}x ${item.produto.title} — R$ ${(
+            this.converterPreco(item.produto.price) * (item.quantidade || 1)
+          ).toFixed(2)}`,
+      )
+      .join('\n');
+
+    const textoFrete = this.frete === 0 ? 'Grátis' : `R$ ${this.frete.toFixed(2)}`;
+    const enderecoCompleto = `${this.rua}, ${this.numero || 'S/N'} — ${this.bairro}, ${this.cidade}/${this.uf} (CEP: ${this.cep})`;
+
+    const mensagem = [
+      `Olá! Gostaria de finalizar meu pedido na *3DDesign*:`,
+      ``,
+      `*Cliente:* ${nomeTrim}`,
+      `*Endereço:* ${enderecoCompleto}`,
+      ``,
+      `*Itens:*`,
+      linhasItens,
+      ``,
+      `*Subtotal:* R$ ${this.subtotal.toFixed(2)}`,
+      `*Frete (${this.descricaoFrete}):* ${textoFrete}`,
+      `*Total:* R$ ${this.totalGeral.toFixed(2)}`,
+    ].join('\n');
+
+    const telefone = '5548991964822'; // Substitua pelo número oficial com DDI+DDD se necessário
+    const url = `https://wa.me/${telefone}?text=${encodeURIComponent(mensagem)}`;
+    window.open(url, '_blank', 'noopener,noreferrer');
   }
 }
