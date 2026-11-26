@@ -72,3 +72,74 @@
     font-size: 0.85rem;
     font-weight: bold;
   }
+
+  header {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background-color: rgba(255, 255, 255, 0.96);
+  backdrop-filter: blur(8px);
+  border-bottom: 1px solid var(--cor-borda);
+  padding: 16px 32px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.logo {
+  font-family: 'Georgia', serif;
+  font-size: 1.4rem;
+  font-weight: bold;
+  color: var(--cor-primaria);
+  letter-spacing: 0.5px;
+  text-decoration: none;
+}
+
+.nav-global {
+  display: flex;
+  align-items: center;
+  gap: 24px;
+}
+
+.nav-link {
+  text-decoration: none;
+  color: var(--cor-texto);
+  font-weight: 500;
+  font-size: 0.95rem;
+  transition: color 0.2s;
+}
+
+.nav-link:hover {
+  color: var(--cor-primaria);
+}
+
+.nav-carrinho {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  background-color: var(--cor-fundo);
+  padding: 8px 14px;
+  border-radius: 20px;
+  border: 1px solid var(--cor-borda);
+}
+
+.badge {
+  background-color: var(--cor-primaria);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: bold;
+  padding: 2px 7px;
+  border-radius: 12px;
+}
+
+@media (max-width: 600px) {
+  header {
+    padding: 12px 16px;
+    flex-direction: column;
+    gap: 12px;
+  }
+  .nav-global {
+    gap: 14px;
+    font-size: 0.9rem;
+  }
+}

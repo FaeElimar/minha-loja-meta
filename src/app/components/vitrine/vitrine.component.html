@@ -1,22 +1,37 @@
-<section class="vitrine-container">
-  <h2>Produtos Natalinos</h2>
-  
+<!-- HERO BANNER DE IMPACTO -->
+<section class="hero">
+  <div class="hero-conteudo">
+    <h1>Decoração de Natal em impressão 3D de alta precisão.</h1>
+    <p>Peças com acabamento impecável para deixar a sua casa e a sua ceia ainda mais especiais neste fim de ano.</p>
+    <span class="hero-tag">COLEÇÃO ESPECIAL • NATAL 2026</span>
+
+  </div>
+</section>
+
+<!-- VITRINE DE PRODUTOS -->
+<section id="catalogo" class="vitrine-container">
+  <div class="vitrine-header">
+    <h2>Peças em Destaque</h2>
+    <span class="vitrine-contador">{{ listaDeProdutos.length }} peças disponíveis</span>
+  </div>
+
   <div class="grid-produtos">
     @for (produto of listaDeProdutos; track produto.id) {
-      <article class="card-produto">
+    <article class="card-produto">
+      <a [routerLink]="['/produto', produto.id]" class="card-img-wrapper">
         <img [src]="produto.image_link" [alt]="produto.title" class="img-fluida">
-        
-        <div class="info-produto">
-          <h3>{{ produto.title }}</h3>
-          <p class="descricao">{{ produto.description }}</p>
-          <span class="preco">{{ produto.price }}</span>
+      </a>
+
+      <div class="info-produto">
+        <h3>{{ produto.title }}</h3>
+        <p class="descricao">{{ produto.description }}</p>
+
+        <div class="card-rodape">
+          <span class="preco">R$ {{ produto.price.replace(' BRL', '').replace('.', ',') }}</span>
+          <a [routerLink]="['/produto', produto.id]" class="btn-comprar">Ver peça →</a>
         </div>
-        
-        <!-- CORRIGIDO: Agora usa o routerLink para não apagar a memória! -->
-        <a [routerLink]="['/produto', produto.id]" class="btn-comprar">VER DETALHES</a>
-      </article>
-    } @empty {
-      <p>Nenhum produto cadastrado no momento.</p>
+      </div>
+    </article>
     }
   </div>
 </section>

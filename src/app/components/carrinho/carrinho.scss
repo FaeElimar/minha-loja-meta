@@ -1,0 +1,242 @@
+.carrinho-container {
+  max-width: 1140px;
+  margin: 48px auto 80px auto;
+  padding: 0 24px;
+
+  h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2rem;
+    font-weight: 500;
+    margin-bottom: 32px;
+    color: var(--cor-texto);
+  }
+}
+
+.carrinho-vazio {
+  background: var(--cor-card);
+  border-radius: 16px;
+  padding: 60px 24px;
+  text-align: center;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.04);
+
+  p {
+    color: var(--cor-texto-suave);
+    margin-bottom: 24px;
+    font-size: 1.05rem;
+  }
+
+  .btn-voltar {
+    display: inline-block;
+    background: var(--cor-primaria);
+    color: #fff;
+    text-decoration: none;
+    padding: 12px 28px;
+    border-radius: 50px;
+    font-weight: 600;
+  }
+}
+
+.carrinho-grid {
+  display: grid;
+  grid-template-columns: 1.5fr 1fr;
+  gap: 32px;
+  align-items: start;
+
+  @media (max-width: 820px) {
+    grid-template-columns: 1fr;
+  }
+}
+
+.item-card {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  background: var(--cor-card);
+  padding: 18px;
+  border-radius: 16px;
+  margin-bottom: 16px;
+  box-shadow: 0 4px 16px rgba(0, 0, 0, 0.04);
+
+  .item-img {
+    width: 84px;
+    height: 84px;
+    object-fit: cover;
+    border-radius: 10px;
+    background: #f0ece6;
+  }
+
+  .item-info {
+    flex: 1;
+
+    h3 {
+      font-size: 1.05rem;
+      margin-bottom: 6px;
+      color: var(--cor-texto);
+    }
+
+    .item-preco {
+      font-weight: 700;
+      color: var(--cor-primaria);
+    }
+  }
+
+  .item-acoes {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-end;
+    gap: 8px;
+  }
+
+  .qtd-controle {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 50px;
+    padding: 4px 10px;
+
+    button {
+      background: none;
+      border: none;
+      font-size: 1.1rem;
+      cursor: pointer;
+      padding: 0 4px;
+      color: var(--cor-texto);
+    }
+  }
+
+  .btn-remover {
+    background: none;
+    border: none;
+    color: #999;
+    font-size: 0.8rem;
+    cursor: pointer;
+    text-decoration: underline;
+
+    &:hover {
+      color: #c0392b;
+    }
+  }
+}
+
+.resumo-box {
+  background: var(--cor-card);
+  padding: 28px;
+  border-radius: 16px;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
+
+  h3 {
+    font-size: 1.2rem;
+    margin-bottom: 20px;
+    padding-bottom: 12px;
+    border-bottom: 1px solid var(--cor-borda);
+  }
+}
+
+.campo {
+  margin-bottom: 16px;
+
+  label {
+    display: block;
+    font-size: 0.85rem;
+    font-weight: 600;
+    margin-bottom: 6px;
+    color: var(--cor-texto-suave);
+  }
+
+  input {
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 8px;
+    font-size: 0.95rem;
+  }
+}
+
+.cep-grupo {
+  display: flex;
+  gap: 8px;
+
+  button {
+    background: var(--cor-texto);
+    color: #fff;
+    border: none;
+    border-radius: 8px;
+    padding: 0 18px;
+    font-weight: 600;
+    cursor: pointer;
+  }
+}
+
+.erro-texto {
+  color: #c0392b;
+  font-size: 0.8rem;
+  margin-top: 4px;
+  display: block;
+}
+
+.endereco-box {
+  background: var(--cor-fundo);
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 0.85rem;
+  margin-bottom: 18px;
+
+  p {
+    margin-bottom: 4px;
+  }
+
+  input {
+    width: 100%;
+    margin-top: 8px;
+    padding: 8px 10px;
+    border: 1px solid var(--cor-borda);
+    border-radius: 6px;
+  }
+}
+
+.totais {
+  border-top: 1px solid var(--cor-borda);
+  padding-top: 16px;
+  margin: 20px 0;
+
+  .linha-total {
+    display: flex;
+    justify-content: space-between;
+    margin-bottom: 10px;
+    font-size: 0.95rem;
+    color: var(--cor-texto-suave);
+
+    &.destaque {
+      font-size: 1.25rem;
+      font-weight: 700;
+      color: var(--cor-texto);
+      margin-top: 12px;
+    }
+  }
+}
+
+.btn-whatsapp {
+  width: 100%;
+  background: #25d366;
+  color: #ffffff;
+  border: none;
+  padding: 15px;
+  border-radius: 50px;
+  font-size: 1rem;
+  font-weight: 700;
+  cursor: pointer;
+  transition: background 0.2s, transform 0.2s;
+
+  &:hover {
+    background: #1ebe57;
+    transform: translateY(-2px);
+  }
+}
+
+.aviso-pix {
+  text-align: center;
+  font-size: 0.8rem;
+  color: var(--cor-texto-suave);
+  margin-top: 12px;
+}

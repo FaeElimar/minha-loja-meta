@@ -1,17 +1,18 @@
 <header class="cabecalho-global">
   <div class="logo-area">
-    <h1>3DDesigner</h1>
+    <h1>3DDesign</h1>
   </div>
   <nav class="nav-global">
-    
+
     <!-- A mágica acontece aqui: routerLink em vez de href -->
     <a routerLink="/" class="nav-link">Catálogo</a>
     <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Sobre o Artista</a>
     <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Contato</a>
-    <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link nav-carrinho">
-      🛒 <span class="badge">{{ carrinhoService.obterTotalItens() }}</span>
+    <a routerLink="/carrinho" class="nav-link nav-carrinho">
+      🛒 Carrinho
+      <span class="badge">{{ carrinhoService.obterTotalItens() }}</span>
     </a>
-  </nav>
+   </nav>
 </header>
 
 <main class="conteudo-principal">

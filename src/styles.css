@@ -8,3 +8,26 @@
   body {
     background-color: #f8f9fa; /* Fundo off-white muito subtil */
   }
+
+  :root {
+  --cor-primaria: #111111;       /* Preto absoluto */
+  --cor-primaria-hover: #333333; /* Grafite */
+  --cor-fundo: #f6f6f6;          /* Cinza gelo bem claro */
+  --cor-card: #ffffff;
+  --cor-texto: #111111;
+  --cor-texto-suave: #666666;
+  --cor-borda: #e2e2e2;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  font-family: 'Plus Jakarta Sans', sans-serif;
+  line-height: 1.5;
+}

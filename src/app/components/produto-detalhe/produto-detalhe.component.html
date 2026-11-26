@@ -1,17 +1,55 @@
-<div class="nav-superior" *ngIf="produto">
-  <a routerLink="/" class="btn-voltar-vitrine">← Continuar Comprando</a>
+<div class="bloco-topo-fixo" *ngIf="produto">
+  <div class="nav-superior">
+    <a routerLink="/" class="btn-voltar-vitrine">← Continuar Comprando</a>
+  </div>
+
+  <div class="faixa-trama faixa-trama-topo" aria-hidden="true"></div>
 </div>
 
 <div class="detalhe-container" *ngIf="produto">
   <div class="coluna-imagem">
-    <img [src]="produto.image_link" [alt]="produto.title" class="img-destaque">
+    <img [src]="produto.image_link" [alt]="produto.title" class="foto-detalhe" />
+    <p class="aviso-foto">Foto meramente ilustrativas, somente os produtos são reais, não acompanha decoração</p>
+
+    @if (produto.cores && produto.cores.length > 0) {
+    <div class="bloco-opcoes">
+      <p class="titulo-cores">
+        <strong>{{ podeEscolherVariasCores ? 'Escolha as cores (pode marcar mais de uma):' : 'Escolha a cor:'
+          }}</strong>
+      </p>
+      @for (cor of produto.cores; track cor) {
+      <label class="opcao-cor" [class.selecionada]="coresSelecionadas.includes(cor)">
+        <input [type]="podeEscolherVariasCores ? 'checkbox' : 'radio'" name="corProduto" [value]="cor"
+          [checked]="coresSelecionadas.includes(cor)" (change)="alternarCor(cor)" />
+        <span>{{ cor }}</span>
+      </label>
+      }
+    </div>
+    }
   </div>
-  
+
+
   <div class="coluna-info">
     <h2>{{ produto.title }}</h2>
     <p class="desc">{{ produto.description }}</p>
-    <span class="preco">{{ produto.price }}</span>
-    
+    <span class="preco">{{ formatarPreco(precoExibido) }}</span>
+
+    @if (produto.opcoes && produto.opcoes.length > 0) {
+    <div class="bloco-opcoes">
+      <p class="titulo-cores"><strong>Escolha a opção:</strong></p>
+      @for (opcao of produto.opcoes; track opcao.label) {
+      <label class="opcao-cor" [class.selecionada]="opcaoSelecionada?.label === opcao.label">
+        <input type="radio" name="opcaoProduto" [checked]="opcaoSelecionada?.label === opcao.label"
+          (change)="selecionarOpcao(opcao)" />
+        <span class="texto-opcao">
+          <span>{{ opcao.label }}</span>
+          <strong>{{ formatarPreco(opcao.price) }}</strong>
+        </span>
+      </label>
+      }
+    </div>
+    }
+
     <div class="calculo-frete">
       <label for="cep">Calcular Frete e Prazo:</label>
       <div class="frete-input-group">
@@ -19,24 +57,24 @@
         <button (click)="calcularFrete(cepInput.value)" class="btn-frete">OK</button>
       </div>
       <p class="frete-resultado" *ngIf="valorFrete">{{ valorFrete }}</p>
-      
-      <!-- NOVO: Lista de Opções de Frete -->
+
       @if (opcoesFrete.length > 0) {
-        <div class="lista-fretes">
-          @for (frete of opcoesFrete; track frete.tipo) {
-            <label class="frete-opcao">
-              <input type="radio" name="escolhaFrete">
-              <div class="frete-info">
-                <span class="frete-tipo">{{ frete.tipo }}</span>
-                <span class="frete-prazo">{{ frete.prazo }}</span>
-              </div>
-              <span class="frete-valor">{{ frete.valor }}</span>
-            </label>
-          }
-        </div>
+      <div class="lista-fretes">
+        @for (frete of opcoesFrete; track frete.tipo) {
+        <label class="frete-opcao" [class.selecionada]="freteSelecionado?.tipo === frete.tipo">
+          <input type="radio" name="escolhaFrete" [checked]="freteSelecionado?.tipo === frete.tipo"
+            (change)="selecionarFrete(frete)" />
+          <div class="frete-info">
+            <span class="frete-tipo">{{ frete.tipo }}</span>
+            <span class="frete-prazo">{{ frete.prazo }}</span>
+          </div>
+          <span class="frete-valor">{{ formatarPreco(frete.valor) }}</span>
+        </label>
+        }
+      </div>
       }
     </div>
-    
+
     <div class="controle-quantidade">
       <span class="qtd-label">Quantidade:</span>
       <div class="qtd-seletor">
@@ -45,16 +83,28 @@
         <button (click)="aumentarQuantidade()" class="btn-qtd">+</button>
       </div>
     </div>
-    
+
     <div class="grupo-botoes">
-      <button (click)="adicionarCarrinho()" class="btn-carrinho">🛒 ADICIONAR AO CARRINHO</button>
+      <button (click)="adicionarAoCarrinho()" class="btn-carrinho">🛒 ADICIONAR AO CARRINHO</button>
       <button (click)="comprar()" class="btn-comprar-agora">💳 COMPRAR AGORA</button>
     </div>
+
     <p class="seguranca">Ambiente 100% seguro.</p>
   </div>
 </div>
+
 
 <div class="erro-container" *ngIf="!produto">
   <h2>Produto não encontrado.</h2>
   <a routerLink="/" class="btn-voltar">Voltar à Vitrine</a>
 </div>
+
+<div class="faixa-trama faixa-trama-base" aria-hidden="true"></div>
+
+<a class="whatsapp-flutuante" [href]="linkWhatsApp" target="_blank" rel="noopener noreferrer"
+  aria-label="Tirar dúvidas no WhatsApp" title="Tirar dúvidas no WhatsApp">
+  <svg xmlns="http://www.w3.org/2000/svg" width="34" height="34" viewBox="0 0 24 24" fill="#ffffff" aria-hidden="true">
+    <path
+      d="M12.031 6.172c-3.181 0-5.767 2.586-5.768 5.766-.001 1.298.38 2.27 1.019 3.287l-.582 2.128 2.182-.573c.978.58 1.911.928 3.145.929 3.178 0 5.767-2.587 5.768-5.766.001-3.187-2.575-5.77-5.764-5.771zm3.392 8.244c-.144.405-.837.774-1.17.824-.299.045-.677.063-1.092-.069-.252-.08-.575-.187-.988-.365-1.739-.751-2.874-2.502-2.961-2.617-.087-.116-.708-.94-.708-1.793s.448-1.273.607-1.446c.159-.173.346-.217.462-.217l.332.006c.106.005.249-.04.39.298.144.347.491 1.2.534 1.287.043.087.072.188.014.304-.058.116-.087.188-.173.289l-.26.304c-.087.086-.177.18-.076.354.101.174.449.741.964 1.201.662.591 1.221.774 1.394.86s.274.072.376-.043c.101-.116.433-.506.549-.68.116-.173.231-.145.39-.087s1.011.477 1.184.564.289.13.332.202c.045.072.045.419-.1.824zm-3.423-14.416c-6.627 0-12 5.373-12 12s5.373 12 12 12 12-5.373 12-12-5.373-12-12-12zm.029 18.88c-1.161 0-2.305-.292-3.318-.844l-3.677.964.984-3.595c-.607-1.052-.927-2.246-.926-3.468.001-3.825 3.113-6.937 6.937-6.937 1.856.001 3.598.723 4.907 2.034 1.31 1.311 2.031 3.054 2.03 4.908-.001 3.825-3.113 6.938-6.937 6.938z" />
+  </svg>
+</a>

@@ -19,3 +19,4 @@ export class VitrineComponent implements OnInit {
     this.listaDeProdutos = this.produtoService.getProdutos();
   }
 }
+
