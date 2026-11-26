@@ -1,5 +1,6 @@
 import { Component, OnInit, ChangeDetectorRef } from '@angular/core';
 import { ActivatedRoute, RouterLink } from '@angular/router';
+import { FormsModule } from '@angular/forms';
 import { OpcaoProduto, ProdutoMeta, ProdutoService } from '../../services/produto';
 import { CarrinhoService } from '../../services/carrinho.service';
 import { CommonModule } from '@angular/common';
@@ -14,13 +15,23 @@ export interface OpcaoFrete {
 @Component({
   selector: 'app-produto-detalhe',
   standalone: true,
-  imports: [CommonModule, RouterLink],
+  imports: [CommonModule, FormsModule, RouterLink],
   templateUrl: './produto-detalhe.component.html',
   styleUrls: ['./produto-detalhe.component.css'],
 })
 export class ProdutoDetalheComponent implements OnInit {
   // Dados do produto carregado pela rota
   produto: ProdutoMeta | undefined;
+  // CEP digitado no campo do produto
+  cep: string = '';
+  // CEP informado no campo de frete do produto
+  cepInformado: string = '';
+  // Indica se a consulta do CEP está em andamento
+  buscandoCep: boolean = false;
+  // Mensagem de erro do campo de CEP
+  erroCep: string = '';
+  // Mensagem de erro exibida quando tentar comprar sem calcular/selecionar o frete
+  erroCepComprar: string = '';
   // Mensagem de status ou resumo da consulta de CEP/frete
   valorFrete: string = '';
   // Lista de modalidades de frete disponíveis após consultar o CEP
@@ -57,25 +68,46 @@ export class ProdutoDetalheComponent implements OnInit {
     }
   }
 
+  // Limpa o frete calculado quando o cliente altera o CEP
+  aoAlterarCep(): void {
+    this.erroCep = '';
+    this.erroCepComprar = '';
+    this.freteSelecionado = null;
+    this.opcoesFrete = [];
+  }
+
   // Marca a opção de frete escolhida pelo usuário
   selecionarFrete(frete: OpcaoFrete): void {
     this.freteSelecionado = frete;
+    this.erroCepComprar = '';
   }
 
-  async calcularFrete(cep: string): Promise<void> {
-    if (!cep) return;
-
-    // Remove caracteres não numéricos para validar os 8 dígitos do CEP
-    const cepLimpo = cep.replace(/\D/g, '');
+  async calcularFrete(cep?: string): Promise<void> {
+    const valorCep = (cep ?? this.cep ?? '').trim();
+    this.cep = valorCep;
+    this.cepInformado = valorCep;
+    this.erroCep = '';
+    this.erroCepComprar = '';
     this.opcoesFrete = [];
     this.freteSelecionado = null;
 
-    if (cepLimpo.length !== 8) {
-      this.valorFrete = 'CEP inválido. Digite os 8 números corretamente.';
+    if (!valorCep) {
+      this.erroCep = 'Digite um CEP válido com 8 números.';
+      this.valorFrete = '';
       this.cdr.detectChanges();
       return;
     }
 
+    // Remove caracteres não numéricos para validar os 8 dígitos do CEP
+    const cepLimpo = valorCep.replace(/\D/g, '');
+    if (cepLimpo.length !== 8) {
+      this.erroCep = 'CEP inválido. Digite os 8 números corretamente.';
+      this.valorFrete = '';
+      this.cdr.detectChanges();
+      return;
+    }
+
+    this.buscandoCep = true;
     this.valorFrete = 'Calculando frete...';
     this.cdr.detectChanges();
 
@@ -90,7 +122,8 @@ export class ProdutoDetalheComponent implements OnInit {
       clearTimeout(timeout);
 
       if (!resposta.ok) {
-        this.valorFrete = 'CEP não encontrado. Tente novamente.';
+        this.erroCep = 'CEP não encontrado. Tente novamente.';
+        this.valorFrete = '';
       } else {
         const dados = await resposta.json();
         this.valorFrete = `Opções de envio para ${dados.city} - ${dados.state}:`;
@@ -104,9 +137,10 @@ export class ProdutoDetalheComponent implements OnInit {
       this.valorFrete = `Opções de envio para o CEP ${cepLimpo}:`;
       this.opcoesFrete = this.montarOpcoesPorRegiao(cepLimpo, '', '');
       this.freteSelecionado = this.opcoesFrete[0];
+    } finally {
+      this.buscandoCep = false;
+      this.cdr.detectChanges();
     }
-
-    this.cdr.detectChanges();
   }
 
   // Define os valores e prazos de frete conforme a localização do CEP
@@ -116,7 +150,7 @@ export class ProdutoDetalheComponent implements OnInit {
     const cidadeNorm = (cidade || '').toLowerCase();
     const ufNorm = (uf || '').toUpperCase();
 
-   // 1. Norte da Ilha de Florianópolis (88050-000 a 88059-999 e Rio Vermelho 88060-000 a 88062-999)
+    // 1. Norte da Ilha de Florianópolis (88050-000 a 88059-999 e Rio Vermelho 88060-000 a 88062-999)
     const ehNorteDaIlha =
       (cepNumero >= 88050000 && cepNumero <= 88059999) ||
       (cepNumero >= 88060000 && cepNumero <= 88062999);
@@ -155,7 +189,16 @@ export class ProdutoDetalheComponent implements OnInit {
     }
 
     // 3. Restante de Florianópolis (Sul da Ilha / Continente) e Grande Floripa (São José, Palhoça, Biguaçu)
-    const grandeFloripa = ['florianópolis', 'florianopolis', 'são josé', 'sao jose', 'palhoça', 'palhoca', 'biguaçu', 'biguacu'];
+    const grandeFloripa = [
+      'florianópolis',
+      'florianopolis',
+      'são josé',
+      'sao jose',
+      'palhoça',
+      'palhoca',
+      'biguaçu',
+      'biguacu',
+    ];
     const ehGrandeFloripa =
       grandeFloripa.includes(cidadeNorm) || (cepNumero >= 88000000 && cepNumero <= 88199999);
 
@@ -286,9 +329,8 @@ export class ProdutoDetalheComponent implements OnInit {
         : 'A calcular';
 
     // Converte o preço unitário exibido para número e multiplica pela quantidade
-    const precoUnitarioNum = Number(
-      this.precoExibido.replace('BRL', '').replace(',', '.').trim(),
-    ) || 0;
+    const precoUnitarioNum =
+      Number(this.precoExibido.replace('BRL', '').replace(',', '.').trim()) || 0;
     const subtotalProdutos = precoUnitarioNum * this.quantidade;
     const valorFreteNum = this.freteSelecionado ? this.freteSelecionado.valor : 0;
     const totalEstimado = subtotalProdutos + valorFreteNum;
@@ -331,17 +373,28 @@ export class ProdutoDetalheComponent implements OnInit {
 
   comprar(): void {
     if (!this.produto) return;
+
+    this.erroCepComprar = '';
+    const cepTexto = (this.cep || this.cepInformado).trim();
+    const cepLimpo = cepTexto.replace(/\D/g, '');
+
+    if (cepLimpo.length !== 8 || !this.freteSelecionado) {
+      this.erroCepComprar =
+        'Informe o CEP e clique em "OK" para calcular o frete antes de comprar.';
+      this.cdr.detectChanges();
+      return;
+    }
+
     const numeroWhatsApp = '5548991964822';
     const detalhes: string[] = [];
     if (this.opcaoSelecionada) detalhes.push(`*Opção:* ${this.opcaoSelecionada.label}`);
     if (this.coresSelecionadas.length) {
       detalhes.push(`*Cores:* ${this.coresSelecionadas.join(', ')}`);
     }
-    if (this.freteSelecionado) {
-      detalhes.push(
-        `*Frete:* ${this.freteSelecionado.tipo} (${this.formatarPreco(this.freteSelecionado.valor)} - ${this.freteSelecionado.prazo})`,
-      );
-    }
+    detalhes.push(`*CEP:* ${cepTexto}`);
+    detalhes.push(
+      `*Frete:* ${this.freteSelecionado.tipo} (${this.formatarPreco(this.freteSelecionado.valor)} - ${this.freteSelecionado.prazo})`,
+    );
     const blocoDetalhes = detalhes.length ? `\n${detalhes.join('\n')}` : '';
 
     const mensagem = `Olá, 3DDesigner! Tenho interesse em adquirir:\n\n*Produto:* ${this.produto.title}${blocoDetalhes}\n*Quantidade:* ${this.quantidade}\n*Valor:* ${this.formatarPreco(this.precoExibido)}\n\nPodemos fechar o pedido?`;
