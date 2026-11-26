@@ -1,14 +1,16 @@
 /* 1. NAVEGAÇÃO SUPERIOR (Botão Voltar) */
 .nav-superior {
-  max-width: 1000px;
-  margin: 30px auto 0 auto;
+  max-width: 1100px;
+  margin: 24px auto 14px auto;
   padding: 0;
+  box-sizing: border-box;
 }
 
 .btn-voltar-vitrine {
   display: inline-block;
   position: relative;
-  top: 22px; /* Ajuste para 12px ou 14px se quiser descer mais um pouco */
+  top: 22px;
+  margin-left: 0;
   color: #8b0000;
   background-color: #fdf5f5;
   padding: 10px 25px;
@@ -28,18 +30,23 @@
 
 /* 2. ESTRUTURA PRINCIPAL DO PRODUTO */
 .detalhe-container {
-  max-width: 1000px;
-  margin: 20px auto 60px auto;
-  padding: 40px;
-  display: flex;
-  gap: 50px;
+  display: grid;
+  grid-template-columns: 440px 1fr;
+  gap: 40px;
+  max-width: 1100px;
+  margin: 110px auto 60px auto;
+  padding: 24px;
   background: #ffffff;
   border-radius: 8px;
   box-shadow: 0 4px 15px rgba(0, 0, 0, 0.3);
+  align-items: start;
 }
 
 .coluna-imagem {
-  width: 50%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  width: 100%;
 }
 
 .img-destaque {
@@ -49,18 +56,36 @@
   object-fit: cover;
 }
 
+.foto-detalhe {
+  width: 100%;
+  max-width: 480px;
+  height: auto;
+  border-radius: 12px;
+  object-fit: cover;
+  display: block;
+}
+
+.coluna-imagem .bloco-opcoes {
+  width: 100%;
+  max-width: 480px;
+}
+
 .coluna-info {
-  width: 50%;
+  width: 100%;
   display: flex;
   flex-direction: column;
   justify-content: center;
 }
 
+.coluna-info h1,
 .coluna-info h2 {
   color: #8b0000;
   font-family: 'Georgia', serif;
-  font-size: 2.2rem;
-  margin-bottom: 20px;
+  font-size: 1.85rem;
+  line-height: 1.2;
+  margin-bottom: 10px;
+  max-width: 100%;
+  white-space: pre-line;
 }
 
 .desc {
@@ -68,6 +93,7 @@
   line-height: 1.6;
   font-size: 1.1rem;
   margin-bottom: 30px;
+  white-space: pre-line;
 }
 
 .preco {
@@ -77,54 +103,115 @@
   margin-bottom: 30px;
 }
 
-/* 3. CÁLCULO DE FRETE */
+/* 3. CÁLCULO DE FRETE (BLOCO ÚNICO E LIMPO) */
 .calculo-frete {
-  margin-bottom: 25px;
-  padding: 20px;
-  background-color: #fcf9f9;
-  border-radius: 6px;
-  border: 1px solid #f1e4e4;
-}
-
-.calculo-frete label {
-  display: block;
-  font-size: 0.95rem;
-  color: #333;
-  margin-bottom: 12px;
-  font-weight: bold;
-}
-
-.frete-input-group {
-  display: flex;
-  gap: 10px;
-}
-
-.frete-input-group input {
-  flex-grow: 1;
-  padding: 14px;
-  border: 1px solid #ddd;
-  border-radius: 4px;
-  font-size: 1rem;
-}
-
-.frete-input-group input:focus {
-  outline: none;
-  border-color: #8b0000;
-}
-
-.btn-frete {
-  background-color: #333;
-  color: #fff;
+  background: transparent;
   border: none;
-  padding: 0 25px;
-  border-radius: 4px;
-  font-weight: bold;
-  cursor: pointer;
-  transition: background-color 0.2s;
+  border-top: 1px solid #eaeaea;
+  border-bottom: 1px solid #eaeaea;
+  border-radius: 0;
+  padding: 14px 0;
+  margin: 16px 0 24px;
+  box-shadow: none;
 }
 
-.btn-frete:hover {
-  background-color: #555;
+.frete-box {
+  width: 100%;
+}
+
+.frete-topo {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 8px;
+}
+
+.frete-topo label {
+  display: inline-block;
+  font-size: 0.95rem;
+  color: #333333;
+  font-weight: bold;
+  margin: 0;
+}
+
+.obrigatorio {
+  color: #c0392b;
+}
+
+.link-esqueci-cep {
+  font-size: 0.85rem;
+  color: #8b0000;
+  text-decoration: underline;
+  white-space: nowrap;
+}
+
+.link-esqueci-cep:hover {
+  color: #111111;
+}
+
+.cep-grupo {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  width: 100%;
+  margin-top: 4px;
+}
+
+.cep-grupo input {
+  flex: 1;
+  min-width: 0;
+  height: 38px;
+  border: none;
+  border-bottom: 1px solid #bbbbbb;
+  border-radius: 0;
+  padding: 6px 8px;
+  font-size: 1rem;
+  background: transparent;
+  color: #111111;
+  outline: none;
+  box-sizing: border-box;
+}
+
+.cep-grupo input:focus {
+  border-bottom-color: #8b0000;
+}
+
+.cep-grupo .btn-ok-cep {
+  height: 36px;
+  min-height: 36px;
+  max-height: 36px;
+  padding: 0 18px;
+  background-color: #2b2b2b;
+  color: #ffffff;
+  border: none;
+  border-radius: 4px;
+  font-size: 0.85rem;
+  font-weight: 700;
+  cursor: pointer;
+  white-space: nowrap;
+  flex-shrink: 0;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.2s ease;
+}
+
+.cep-grupo .btn-ok-cep:hover:not(:disabled) {
+  background-color: #444444;
+}
+
+.cep-grupo .btn-ok-cep:disabled {
+  opacity: 0.6;
+  cursor: not-allowed;
+}
+
+.erro-texto {
+  display: block;
+  margin-top: 6px;
+  color: #c0392b;
+  font-size: 0.82rem;
+  font-weight: 600;
 }
 
 .frete-resultado {
@@ -197,6 +284,13 @@
   align-items: center;
   gap: 15px;
   margin-bottom: 25px;
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+  border-radius: 6px;
+}
+
+.quantidade-box {
+  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
+  border-radius: 6px;
 }
 
 .qtd-label {
@@ -288,29 +382,6 @@
   text-align: center;
 }
 
-/* 6. RESPONSIVIDADE (Telemóvel) */
-@media (max-width: 768px) {
-  .detalhe-container {
-    flex-direction: column;
-    padding: 20px;
-    margin: px;
-  }
-
-  .coluna-imagem,
-  .coluna-info {
-    width: 100%;
-  }
-
-  .grupo-botoes {
-    flex-direction: column;
-  }
-
-  .nav-superior {
-  margin-top: 30px; /* Aumente para descer mais o botão (ex.: 26px ou 30px) */
-  margin-bottom: 5px;
-}
-}
-
 .detalhe-info {
   h1,
   h2 {
@@ -331,7 +402,7 @@
     font-size: 0.85rem;
     color: #333333;
     line-height: 1.55;
-    white-space: pre-line; /* Faz o \n quebrar linha de verdade */
+    white-space: pre-line;
     background-color: #f8f9fa;
     border-left: 3px solid #a61c1c;
     padding: 10px 12px;
@@ -342,6 +413,9 @@
 
 .seletor-cores {
   margin: 16px 0;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
 
   .label-cor {
     display: block;
@@ -377,13 +451,6 @@
       font-weight: 600;
     }
   }
-}
-
-.seletor-cores {
-  margin: 16px 0;
-  display: flex;
-  flex-direction: column;
-  gap: 8px;
 
   .titulo-cores {
     margin: 0 0 4px;
@@ -401,7 +468,9 @@
     cursor: pointer;
     font-size: 0.9rem;
     background: #fff;
-    transition: border-color 0.2s, background-color 0.2s;
+    transition:
+      border-color 0.2s,
+      background-color 0.2s;
 
     input[type='radio'] {
       accent-color: #a61c1c;
@@ -426,13 +495,6 @@
   margin-top: 8px;
 }
 
-/* Quebra de linha no título e na descrição */
-.coluna-info h2,
-.desc {
-  white-space: pre-line;
-}
-
-/* Cards de opções (kits) e cores com sombra mais escura */
 .bloco-opcoes {
   display: flex;
   flex-direction: column;
@@ -466,123 +528,6 @@
   align-items: center;
 }
 
-/* Sombra mais escura na caixa de quantidade */
-.controle-quantidade,
-.quantidade-box {
-  box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
-  border-radius: 6px;
-}
-
-/* CEP minimalista (sem caixa pesada) */
-.calculo-frete {
-  background: transparent !important;
-  border: none !important;
-  border-top: 1px solid #eaeaea !important;
-  border-bottom: 1px solid #eaeaea !important;
-  border-radius: 0 !important;
-  padding: 12px 0 !important;
-  margin: 16px 0 !important;
-  box-shadow: none !important;
-}
-
-.frete-input-group {
-  display: flex;
-  gap: 8px;
-  margin-top: 6px;
-}
-
-.frete-input-group input {
-  flex: 1;
-  border: none;
-  border-bottom: 1px solid #bbb;
-  border-radius: 0;
-  padding: 6px 4px;
-  background: transparent;
-  outline: none;
-}
-
-.frete-input-group input:focus {
-  border-bottom-color: #8b1e1e;
-}
-
-.frete-input-group button {
-  padding: 6px 16px;
-  background: #2b2b2b;
-  color: #fff;
-  border: none;
-  border-radius: 4px;
-  font-size: 0.85rem;
-  cursor: pointer;
-}
-
-.detalhe-container {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 40px;
-  max-width: 1100px;
-  margin-top: 110px;
-  padding: 24px;
-  background: #fff;
-  align-items: start;
-}
-
-.coluna-imagem {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  width: 100%;
-}
-
-.foto-detalhe {
-  width: 100%;
-  max-width: 480px;
-  height: auto;
-  border-radius: 12px;
-  object-fit: cover;
-  display: block;
-}
-
-.coluna-imagem .bloco-opcoes {
-  width: 100%;
-  max-width: 480px;
-}
-
-@media (max-width: 768px) {
-  .detalhe-container {
-    grid-template-columns: 1fr;
-  }
-}
-
-/* Dá mais espaço horizontal para a coluna da direita (título e opções) */
-.detalhe-container {
-  grid-template-columns: 440px 1fr;
-}
-
-.coluna-info {
-  width: 100%;
-}
-
-/* Deixa o título mais compacto e equilibrado */
-.coluna-info h1,
-.coluna-info h2 {
-  font-size: 1.85rem;
-  line-height: 1.2;
-  margin-bottom: 10px;
-  max-width: 100%;
-}
-
-.nav-superior {
-  max-width: 1100px;
-  margin: 24px auto 14px auto;
-  padding: 0;
-  box-sizing: border-box;
-}
-
-.btn-voltar-vitrine {
-  display: inline-block;
-  margin-left: 0;
-}
-
 .btn-whatsapp-produto {
   display: flex;
   align-items: center;
@@ -598,7 +543,9 @@
   text-decoration: none;
   border-radius: 8px;
   box-shadow: 0 6px 16px rgba(30, 169, 82, 0.25);
-  transition: background-color 0.2s ease, transform 0.2s ease;
+  transition:
+    background-color 0.2s ease,
+    transform 0.2s ease;
   box-sizing: border-box;
 }
 
@@ -622,7 +569,9 @@
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  transition: transform 0.2s ease, background-color 0.2s ease;
+  transition:
+    transform 0.2s ease,
+    background-color 0.2s ease;
 }
 
 .whatsapp-flutuante svg {
@@ -634,20 +583,6 @@
 .whatsapp-flutuante:hover {
   background-color: #1da851;
   transform: scale(1.06);
-}
-
-@media (max-width: 600px) {
-  .whatsapp-flutuante {
-    right: 16px;
-    bottom: 16px;
-    width: 58px;
-    height: 58px;
-  }
-
-  .whatsapp-flutuante svg {
-    width: 60px;
-    height:60px;
-  }
 }
 
 .pagina-produto-detalhe {
@@ -671,22 +606,20 @@
 
 .bloco-topo-fixo {
   position: fixed;
-  top: 60px; /* Ajuste para a altura exata da barra vermelha */
+  top: 60px;
   left: 0;
   width: 100%;
   z-index: 90;
   background-color: #fbf8f1;
 }
 
-
-/* Faixa superior de 2 cm encostada no topo/limite superior sem espaço branco */
 .topo-fixo-produto {
   position: sticky;
-  top: 0; /* Se a barra vermelha for fixed, troque 0 pela altura dela em px (ex.: 60px) */
+  top: 0;
   z-index: 100;
   width: 100%;
   background-color: #f4edd9;
-  }
+}
 
 .faixa-trama-topo {
   height: 2cm;
@@ -695,7 +628,6 @@
   border-top: 2mm solid #c9a24d;
 }
 
-/* Faixa inferior de 1,5 cm colada na faixa final do rodapé, com filete dourado de 2 mm */
 .faixa-trama-base {
   height: 15mm;
   margin-top: 0;
@@ -703,74 +635,40 @@
   border-bottom: 2mm solid #c9a24d;
 }
 
-.frete-box {
-  width: 100%;
-  margin: 12px 0;
+/* 6. RESPONSIVIDADE (Telemóvel) */
+@media (max-width: 768px) {
+  .detalhe-container {
+    grid-template-columns: 1fr;
+    flex-direction: column;
+    padding: 20px;
+    margin: 16px;
+  }
+
+  .coluna-imagem,
+  .coluna-info {
+    width: 100%;
+  }
+
+  .grupo-botoes {
+    flex-direction: column;
+  }
+
+  .nav-superior {
+    margin-top: 30px;
+    margin-bottom: 5px;
+  }
 }
 
-.frete-topo {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 8px;
-  margin-bottom: 8px;
-}
+@media (max-width: 600px) {
+  .whatsapp-flutuante {
+    right: 16px;
+    bottom: 16px;
+    width: 58px;
+    height: 58px;
+  }
 
-.frete-topo label {
-  font-weight: 600;
-  margin: 0;
-}
-
-.obrigatorio {
-  color: #c0392b;
-}
-
-.link-esqueci-cep {
-  font-size: 0.85rem;
-  color: #1d4ed8;
-  text-decoration: underline;
-  white-space: nowrap;
-}
-
-.cep-grupo {
-  display: flex;
-  align-items: stretch;
-  gap: 8px;
-  width: 100%;
-}
-
-.cep-grupo input {
-  flex: 1;
-  min-width: 0;
-  height: 40px;
-  padding: 0 10px;
-  border: 1px solid #d1d5db;
-  border-radius: 4px;
-  box-sizing: border-box;
-}
-
-.btn-ok-cep {
-  height: 40px;
-  padding: 0 16px;
-  background-color: #1f2937;
-  color: #ffffff;
-  border: none;
-  border-radius: 4px;
-  font-weight: 600;
-  cursor: pointer;
-  white-space: nowrap;
-  flex-shrink: 0;
-}
-
-.btn-ok-cep:disabled {
-  opacity: 0.6;
-  cursor: not-allowed;
-}
-
-.erro-texto {
-  display: block;
-  margin-top: 6px;
-  color: #c0392b;
-  font-size: 0.82rem;
-  font-weight: 500;
+  .whatsapp-flutuante svg {
+    width: 60px;
+    height: 60px;
+  }
 }
