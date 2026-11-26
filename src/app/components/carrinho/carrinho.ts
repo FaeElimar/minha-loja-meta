@@ -22,10 +22,11 @@ export class Carrinho {
   bairro = '';
   cidade = '';
   uf = '';
-  
+
   frete = 0;
   freteCalculado = false;
   buscandoCep = false;
+  erroNome = '';
   erroCep = '';
 
   get itens(): ItemCarrinho[] {
@@ -41,7 +42,7 @@ export class Carrinho {
   get subtotal(): number {
     return this.itens.reduce(
       (total, item) => total + this.converterPreco(item.produto.price) * item.quantidade,
-      0
+      0,
     );
   }
 
@@ -62,10 +63,17 @@ export class Carrinho {
     this.carrinhoService.remover(produtoId);
   }
 
+  aoAlterarCep(): void {
+    this.freteCalculado = false;
+    this.frete = 0;
+    this.erroCep = '';
+  }
+
   async buscarCep(): Promise<void> {
     const cepLimpo = this.cep.replace(/\D/g, '');
     if (cepLimpo.length !== 8) {
       this.erroCep = 'Digite um CEP válido com 8 números.';
+      this.freteCalculado = false;
       return;
     }
 
@@ -88,6 +96,7 @@ export class Carrinho {
       }
     } catch {
       this.erroCep = 'Erro ao consultar o CEP. Tente novamente.';
+      this.freteCalculado = false;
     } finally {
       this.buscandoCep = false;
     }
@@ -96,40 +105,52 @@ export class Carrinho {
   // Ajuste os valores de frete conforme a sua preferência
   private calcularFretePorEstado(uf: string): void {
     if (uf === 'SC') {
-      this.frete = 18.00;
+      this.frete = 18.0;
     } else if (['PR', 'RS', 'SP', 'RJ', 'MG', 'ES'].includes(uf)) {
-      this.frete = 28.00;
+      this.frete = 28.0;
     } else {
-      this.frete = 38.00;
+      this.frete = 38.0;
     }
     this.freteCalculado = true;
   }
 
   finalizarWhatsApp(): void {
-    // Substitua abaixo pelo seu número: 55 + DDD + número (sem espaços)
+    this.erroNome = '';
+    this.erroCep = '';
+
+    if (!this.nomeCliente || !this.nomeCliente.trim()) {
+      this.erroNome = 'Por favor, informe o seu nome.';
+      return;
+    }
+
+    const cepLimpo = this.cep.replace(/\D/g, '');
+    if (cepLimpo.length !== 8) {
+      this.erroCep = 'O CEP é obrigatório. Informe 8 dígitos para calcular o frete.';
+      return;
+    }
+
+    if (!this.freteCalculado) {
+      this.erroCep = 'Clique em "Calcular" para confirmar o CEP e o frete antes de finalizar.';
+      return;
+    }
+
     const telefoneLoja = '5548991964822';
 
-    let mensagem = `*NOVO PEDIDO - NATAL 2026*\n\n`;
-    if (this.nomeCliente) {
-      mensagem += `*Cliente:* ${this.nomeCliente}\n`;
-    }
+    let mensagem = `*NOVO PEDIDO - 3DDESIGNER (NATAL 2026)*\n\n`;
+    mensagem += `*Cliente:* ${this.nomeCliente.trim()}\n`;
     mensagem += `\n*Itens do Pedido:*\n`;
 
-    this.itens.forEach(item => {
+    this.itens.forEach((item) => {
       const precoUnit = this.converterPreco(item.produto.price);
       const sub = (precoUnit * item.quantidade).toFixed(2).replace('.', ',');
       mensagem += `• ${item.quantidade}x ${item.produto.title} — R$ ${sub}\n`;
     });
 
     mensagem += `\n*Subtotal:* R$ ${this.subtotal.toFixed(2).replace('.', ',')}`;
-    if (this.freteCalculado) {
-      mensagem += `\n*Frete (${this.cidade}/${this.uf}):* R$ ${this.frete.toFixed(2).replace('.', ',')}`;
-    }
+    mensagem += `\n*Frete (${this.cidade}/${this.uf}):* R$ ${this.frete.toFixed(2).replace('.', ',')}`;
     mensagem += `\n*TOTAL: R$ ${this.totalGeral.toFixed(2).replace('.', ',')}*\n`;
 
-    if (this.rua) {
-      mensagem += `\n*Endereço de Entrega:*\n${this.rua}, nº ${this.numero || 'S/N'} - ${this.bairro}\n${this.cidade}/${this.uf} - CEP: ${this.cep}\n`;
-    }
+    mensagem += `\n*Endereço de Entrega:*\n${this.rua}, nº ${this.numero || 'S/N'} - ${this.bairro}\n${this.cidade}/${this.uf} - CEP: ${this.cep}\n`;
 
     mensagem += `\nGostaria de confirmar o pedido e receber a chave PIX para pagamento.`;
 

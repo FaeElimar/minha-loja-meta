@@ -240,3 +240,29 @@
   color: var(--cor-texto-suave);
   margin-top: 12px;
 }
+
+.cep-label-linha {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-bottom: 6px;
+
+  label {
+    margin-bottom: 0;
+  }
+}
+
+.obrigatorio {
+  color: #b91c1c;
+  font-weight: 700;
+}
+
+.link-esqueci-cep {
+  font-size: 0.82rem;
+  color: #991b1b;
+  text-decoration: underline;
+
+  &:hover {
+    opacity: 0.8;
+  }
+}

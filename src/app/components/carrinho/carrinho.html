@@ -23,11 +23,11 @@
 
             <div class="item-acoes">
               <div class="qtd-controle">
-                <button (click)="alterarQuantidade(item, -1)">−</button>
+                <button type="button" (click)="alterarQuantidade(item, -1)">−</button>
                 <span>{{ item.quantidade }}</span>
-                <button (click)="alterarQuantidade(item, 1)">+</button>
+                <button type="button" (click)="alterarQuantidade(item, 1)">+</button>
               </div>
-              <button class="btn-remover" (click)="removerItem(item.produto.id)">Remover</button>
+              <button type="button" class="btn-remover" (click)="removerItem(item.produto.id)">Remover</button>
             </div>
           </div>
         }
@@ -38,15 +38,39 @@
         <h3>Resumo do Pedido</h3>
 
         <div class="campo">
-          <label>Seu Nome</label>
-          <input type="text" [(ngModel)]="nomeCliente" placeholder="Ex: Maria Silva">
+          <label for="nomeCliente">Seu Nome <span class="obrigatorio">*</span></label>
+          <input
+            id="nomeCliente"
+            type="text"
+            [(ngModel)]="nomeCliente"
+            placeholder="Ex: Maria Silva"
+            required>
+          @if (erroNome) {
+            <span class="erro-texto">{{ erroNome }}</span>
+          }
         </div>
 
         <div class="campo">
-          <label>CEP para entrega</label>
+          <div class="cep-label-linha">
+            <label for="cep">CEP para entrega <span class="obrigatorio">*</span></label>
+            <a
+              href="https://buscacepinter.correios.com.br/app/endereco/index.php"
+              target="_blank"
+              rel="noopener noreferrer"
+              class="link-esqueci-cep">
+              Esqueci meu CEP
+            </a>
+          </div>
           <div class="cep-grupo">
-            <input type="text" [(ngModel)]="cep" placeholder="00000-000" maxlength="9">
-            <button (click)="buscarCep()" [disabled]="buscandoCep">
+            <input
+              id="cep"
+              type="text"
+              [(ngModel)]="cep"
+              (ngModelChange)="aoAlterarCep()"
+              placeholder="00000-000"
+              maxlength="9"
+              required>
+            <button type="button" (click)="buscarCep()" [disabled]="buscandoCep">
               {{ buscandoCep ? '...' : 'Calcular' }}
             </button>
           </div>
@@ -78,7 +102,7 @@
           </div>
         </div>
 
-        <button class="btn-whatsapp" (click)="finalizarWhatsApp()">
+        <button type="button" class="btn-whatsapp" (click)="finalizarWhatsApp()">
           Finalizar Pedido no WhatsApp
         </button>
         <p class="aviso-pix">Pagamento facilitado via PIX diretamente no atendimento.</p>
