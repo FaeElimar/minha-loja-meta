@@ -9,12 +9,11 @@
 <div class="detalhe-container" *ngIf="produto">
   <div class="coluna-imagem">
     <img [src]="produto.image_link" [alt]="produto.title" class="foto-detalhe" />
-    <p class="aviso-foto">Foto meramente ilustrativas, somente os produtos são reais, não acompanha decoração</p>
+    <p class="aviso-foto">Foto meramente ilustrativas, não acompanha decoração</p>
 
     <p class="aviso-producao-produto">
       Produção artesanal sob encomenda: cada peça é impressa em 3D e finalizada após a confirmação do pedido, com prazo
-      de produção (normalmente para peças grandes até 48 horas úteis) antes do envio ou entrega. Entrega gratuita no
-      Norte da Ilha / Rio Vermelho.
+      de produção (normalmente para peças grandes até 48 horas úteis) antes do envio ou entrega.
     </p>
 
     @if (produto.cores && produto.cores.length > 0) {

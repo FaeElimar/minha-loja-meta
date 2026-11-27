@@ -6,13 +6,13 @@
 
     <!-- A mágica acontece aqui: routerLink em vez de href -->
     <a routerLink="/" class="nav-link">Catálogo</a>
-    <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Sobre o Artista</a>
+    <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Sobre</a>
     <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Contato</a>
     <a routerLink="/carrinho" class="nav-link nav-carrinho">
       🛒 Carrinho
       <span class="badge">{{ carrinhoService.obterTotalItens() }}</span>
     </a>
-   </nav>
+  </nav>
 </header>
 
 <main class="conteudo-principal">
@@ -22,6 +22,7 @@
 <footer class="rodape-global">
   <p>&copy; 2026 3DDesign. Todos os direitos reservados.</p>
   <p class="aviso-producao-rodape">
-    Produção artesanal sob encomenda: impressão 3D e acabamento após confirmação do pedido (peças grandes até 48h úteis). Entrega gratuita no Norte da Ilha / Rio Vermelho e demais regiões e prazos conforme o CEP.
+    Produção artesanal sob encomenda: impressão 3D e acabamento após confirmação do pedido (peças grandes até 48h
+    úteis).
   </p>
 </footer>

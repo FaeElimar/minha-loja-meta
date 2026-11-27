@@ -9,6 +9,7 @@
   position: sticky;
   top: 0;
   z-index: 1000;
+  margin-bottom: 2mm #c27e25;
 }
 
 .logo-area h1 {
@@ -71,6 +72,7 @@
   padding: 2px 7px;
   border-radius: 12px;
   line-height: 1.2;
+  margin-bottom: 2mm #c27e25;
 }
 
 .conteudo-principal {
