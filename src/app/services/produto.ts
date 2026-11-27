@@ -370,7 +370,7 @@ export class ProdutoService {
       availability: 'in stock',
       condition: 'new',
       price: '18.00 BRL',
-      image_link: 'imagens/minirena.jpg',
+      image_link: 'imagens/minipn.jpg',
       brand: 'Coleção Natal'
     },
     {
@@ -380,7 +380,7 @@ export class ProdutoService {
       availability: 'in stock',
       condition: 'new',
       price: '90.00 BRL',
-      image_link: 'imagens/minirena.jpg',
+      image_link: 'imagens/treno.jpg',
       brand: 'Coleção Natal'
     },
     {

@@ -672,3 +672,15 @@
     height: 60px;
   }
 }
+
+.aviso-producao-produto {
+  margin-top: 16px;
+  padding: 10px 14px;
+  background-color: #fdf8f7;
+  border-left: 3px solid #8b0000;
+  border-radius: 6px;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  color: #4a3535;
+}
+

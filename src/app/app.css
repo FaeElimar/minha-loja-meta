@@ -1,145 +1,127 @@
+CSS
 .cabecalho-global {
-  background-color: #8b0000; 
-  padding: 20px 40px;
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  box-shadow: 0 4px 10px rgba(0,0,0,0.1);
-  
-  /* NOVO: Mantém o cabeçalho fixo no topo */
-  position: sticky;
-  top: 0;
-  z-index: 1000; /* Garante que fica por cima de todas as imagens e produtos */
-}
-  
-  .logo-area h1 {
-    font-family: 'Georgia', serif;
-    font-size: 1.8rem;
-    margin: 0;
-    color: #ffffff;
-  }
-  
-  .nav-global {
-    display: flex;
-    gap: 25px;
-  }
-  
-  .nav-link {
-    color: #f1e4e4;
-    text-decoration: none;
-    font-weight: bold;
-    font-size: 1rem;
-    transition: color 0.2s;
-  }
-  
-  .nav-link:hover {
-    color: #ffffff;
-    text-decoration: underline;
-  }
-  
-  .conteudo-principal {
-    min-height: calc(100vh - 160px); /* Garante que o rodapé fica sempre no final da tela */
-    padding-bottom: 40px;
-  }
-  
-  .rodape-global {
-    background-color: #9b1a04;
-    color: #ffffff;
-    text-align: center;
-    padding: 25px;
-    font-size: 0.9rem;
-  }
-  
-  /* Responsividade do Cabeçalho para telemóveis */
-  @media (max-width: 768px) {
-    .cabecalho-global {
-      flex-direction: column;
-      gap: 15px;
-      text-align: center;
-    }
-  }
-
-  .nav-carrinho {
-    display: flex;
-    align-items: center;
-    gap: 5px;
-  }
-  .badge {
-    background-color: #ffffff;
-    color: #8b0000;
-    padding: 2px 8px;
-    border-radius: 12px;
-    font-size: 0.85rem;
-    font-weight: bold;
-  }
-
-  header {
-  position: sticky;
-  top: 0;
-  z-index: 100;
-  background-color: rgba(255, 255, 255, 0.96);
-  backdrop-filter: blur(8px);
-  border-bottom: 1px solid var(--cor-borda);
+  background-color: #8b0000;
   padding: 16px 32px;
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: 16px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.12);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
 }
 
-.logo {
+.logo-area h1 {
   font-family: 'Georgia', serif;
-  font-size: 1.4rem;
+  font-size: 1.65rem;
   font-weight: bold;
-  color: var(--cor-primaria);
+  margin: 0;
+  color: #ffffff;
   letter-spacing: 0.5px;
-  text-decoration: none;
+  white-space: nowrap;
 }
 
 .nav-global {
   display: flex;
   align-items: center;
-  gap: 24px;
+  gap: 22px;
 }
 
 .nav-link {
+  color: #ffffff;
   text-decoration: none;
-  color: var(--cor-texto);
-  font-weight: 500;
+  font-weight: 600;
   font-size: 0.95rem;
-  transition: color 0.2s;
+  white-space: nowrap;
+  transition: color 0.2s ease, opacity 0.2s ease;
 }
 
 .nav-link:hover {
-  color: var(--cor-primaria);
+  color: #f1e4e4;
+  text-decoration: underline;
 }
 
-.nav-carrinho {
-  display: flex;
+/* Mantém os links comuns brancos e estiliza o botão do carrinho sem quebrar linha */
+.nav-link.nav-carrinho {
+  display: inline-flex;
   align-items: center;
   gap: 6px;
-  background-color: var(--cor-fundo);
-  padding: 8px 14px;
+  background-color: #ffffff;
+  color: #8b0000;
+  padding: 6px 12px;
   border-radius: 20px;
-  border: 1px solid var(--cor-borda);
+  font-weight: bold;
+  font-size: 0.9rem;
+  text-decoration: none;
+}
+
+.nav-link.nav-carrinho:hover {
+  color: #8b0000;
+  opacity: 0.92;
+  text-decoration: none;
 }
 
 .badge {
-  background-color: var(--cor-primaria);
-  color: #fff;
-  font-size: 0.75rem;
+  background-color: #8b0000;
+  color: #ffffff;
+  font-size: 0.78rem;
   font-weight: bold;
   padding: 2px 7px;
   border-radius: 12px;
+  line-height: 1.2;
 }
 
-@media (max-width: 600px) {
-  header {
-    padding: 12px 16px;
+.conteudo-principal {
+  min-height: calc(100vh - 160px);
+  padding-bottom: 40px;
+}
+
+.rodape-global {
+  background-color: #9b1a04;
+  color: #ffffff;
+  text-align: center;
+  padding: 25px 16px;
+  font-size: 0.9rem;
+}
+
+.rodape-global p {
+  margin: 0;
+}
+
+.aviso-producao-rodape {
+  max-width: 720px;
+  margin: 8px auto 0;
+  font-size: 0.84rem;
+  line-height: 1.45;
+  color: #f9ece9;
+}
+
+@media (max-width: 768px) {
+  .cabecalho-global {
     flex-direction: column;
-    gap: 12px;
+    align-items: center;
+    padding: 12px 14px;
+    gap: 10px;
   }
+
+  .logo-area h1 {
+    font-size: 1.45rem;
+  }
+
   .nav-global {
-    gap: 14px;
-    font-size: 0.9rem;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px 12px;
+    width: 100%;
+  }
+
+  .nav-link {
+    font-size: 0.86rem;
+  }
+
+  .nav-link.nav-carrinho {
+    padding: 5px 11px;
+    font-size: 0.84rem;
   }
 }
