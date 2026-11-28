@@ -2,9 +2,11 @@ import { Routes } from '@angular/router';
 import { VitrineComponent } from './components/vitrine/vitrine.component';
 import { ProdutoDetalheComponent } from './components/produto-detalhe/produto-detalhe.component';
 import { Carrinho } from './components/carrinho/carrinho';
+import { ExportarMetaComponent } from './components/exportar-meta/exportar-meta.component';
 
 export const routes: Routes = [
   { path: '', component: VitrineComponent },
   { path: 'produto/:id', component: ProdutoDetalheComponent },
-  { path: 'carrinho', component: Carrinho }
+  { path: 'carrinho', component: Carrinho },
+  { path: 'exportar-meta', component: ExportarMetaComponent }
 ];

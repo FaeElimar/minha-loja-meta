@@ -1,15 +1,23 @@
-/* 1. NAVEGAÇÃO SUPERIOR (Botão Voltar) */
+/* 1. NAVEGAÇÃO SUPERIOR (Botão Voltar sobre a trama) */
+/* Posiciona o botão de voltar sobre a faixa de trama superior sem depender de margem negativa */
 .nav-superior {
+  position: relative;
+  z-index: 20;
   max-width: 1100px;
-  margin: 24px auto 14px auto;
-  padding: 0;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 0;
+  overflow: visible;
   box-sizing: border-box;
 }
 
+/* Botão para voltar da tela de detalhe para a vitrine principal, alinhado verticalmente na trama */
 .btn-voltar-vitrine {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
   position: relative;
-  top: 22px;
+  z-index: 21;
+  top: 18px;
   margin-left: 0;
   color: #8b0000;
   background-color: #fdf5f5;
@@ -18,23 +26,26 @@
   text-decoration: none;
   font-weight: bold;
   font-size: 0.95rem;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.16);
   transition:
     background-color 0.2s,
     color 0.2s;
 }
 
+/* Destaque visual ao passar o cursor sobre o botão de voltar */
 .btn-voltar-vitrine:hover {
   background-color: #f1e4e4;
   color: #111;
 }
 
 /* 2. ESTRUTURA PRINCIPAL DO PRODUTO */
+/* Grade principal com foto/opções à esquerda e informações/compra à direita, mais próxima da trama */
 .detalhe-container {
   display: grid;
   grid-template-columns: 440px 1fr;
   gap: 40px;
   max-width: 1100px;
-  margin: 110px auto 60px auto;
+  margin: 28px auto 60px auto;
   padding: 24px;
   background: #ffffff;
   border-radius: 8px;
@@ -42,6 +53,7 @@
   align-items: start;
 }
 
+/* Coluna esquerda que agrupa imagem principal, avisos e opções de cor */
 .coluna-imagem {
   display: flex;
   flex-direction: column;
@@ -49,6 +61,7 @@
   width: 100%;
 }
 
+/* Imagem de destaque alternativa com fundo neutro */
 .img-destaque {
   width: 100%;
   border-radius: 8px;
@@ -56,6 +69,7 @@
   object-fit: cover;
 }
 
+/* Foto principal do produto na página de detalhe */
 .foto-detalhe {
   width: 100%;
   max-width: 480px;
@@ -65,11 +79,13 @@
   display: block;
 }
 
+/* Mantém os blocos de opções alinhados à largura da foto na coluna esquerda */
 .coluna-imagem .bloco-opcoes {
   width: 100%;
   max-width: 480px;
 }
 
+/* Coluna direita com título, descrição, preço, frete, quantidade e botões */
 .coluna-info {
   width: 100%;
   display: flex;
@@ -77,6 +93,7 @@
   justify-content: center;
 }
 
+/* Título principal do produto na coluna de informações */
 .coluna-info h1,
 .coluna-info h2 {
   color: #8b0000;
@@ -88,6 +105,7 @@
   white-space: pre-line;
 }
 
+/* Descrição do produto preservando quebras de linha (\n) */
 .desc {
   color: #555;
   line-height: 1.6;
@@ -96,6 +114,7 @@
   white-space: pre-line;
 }
 
+/* Preço principal em destaque */
 .preco {
   font-size: 2rem;
   font-weight: bold;
@@ -104,6 +123,7 @@
 }
 
 /* 3. CÁLCULO DE FRETE (BLOCO ÚNICO E LIMPO) */
+/* Faixa divisória do cálculo de frete e prazo */
 .calculo-frete {
   background: transparent;
   border: none;
@@ -115,10 +135,12 @@
   box-shadow: none;
 }
 
+/* Container interno do campo de CEP */
 .frete-box {
   width: 100%;
 }
 
+/* Linha superior com rótulo do frete e link para buscar o CEP */
 .frete-topo {
   display: flex;
   justify-content: space-between;
@@ -127,6 +149,7 @@
   margin-bottom: 8px;
 }
 
+/* Rótulo do campo de CEP */
 .frete-topo label {
   display: inline-block;
   font-size: 0.95rem;
@@ -135,10 +158,12 @@
   margin: 0;
 }
 
+/* Asterisco vermelho indicando campo obrigatório */
 .obrigatorio {
   color: #c0392b;
 }
 
+/* Link auxiliar "Esqueci meu CEP" */
 .link-esqueci-cep {
   font-size: 0.85rem;
   color: #8b0000;
@@ -146,10 +171,12 @@
   white-space: nowrap;
 }
 
+/* Escurece o link "Esqueci meu CEP" no hover */
 .link-esqueci-cep:hover {
   color: #111111;
 }
 
+/* Agrupa o input de CEP e o botão OK na mesma linha */
 .cep-grupo {
   display: flex;
   align-items: center;
@@ -158,6 +185,7 @@
   margin-top: 4px;
 }
 
+/* Campo de digitação do CEP com linha inferior */
 .cep-grupo input {
   flex: 1;
   min-width: 0;
@@ -173,10 +201,12 @@
   box-sizing: border-box;
 }
 
+/* Destaca a linha inferior do CEP quando o campo está focado */
 .cep-grupo input:focus {
   border-bottom-color: #8b0000;
 }
 
+/* Botão OK para consultar o frete */
 .cep-grupo .btn-ok-cep {
   height: 36px;
   min-height: 36px;
@@ -197,15 +227,18 @@
   transition: background-color 0.2s ease;
 }
 
+/* Estado hover do botão OK */
 .cep-grupo .btn-ok-cep:hover:not(:disabled) {
   background-color: #444444;
 }
 
+/* Estado desabilitado enquanto o CEP é consultado */
 .cep-grupo .btn-ok-cep:disabled {
   opacity: 0.6;
   cursor: not-allowed;
 }
 
+/* Mensagem de erro de validação do CEP */
 .erro-texto {
   display: block;
   margin-top: 6px;
@@ -214,6 +247,7 @@
   font-weight: 600;
 }
 
+/* Resumo textual do resultado do frete */
 .frete-resultado {
   margin-top: 15px;
   font-size: 0.95rem;
@@ -221,7 +255,7 @@
   font-weight: bold;
 }
 
-/* Estilos da Lista de Opções de Frete */
+/* Lista vertical com as modalidades de entrega disponíveis */
 .lista-fretes {
   margin-top: 15px;
   display: flex;
@@ -229,6 +263,7 @@
   gap: 10px;
 }
 
+/* Card selecionável de cada opção de frete */
 .frete-opcao {
   display: flex;
   align-items: center;
@@ -242,11 +277,13 @@
   background-color: #ffffff;
 }
 
+/* Destaque da opção de frete ao passar o cursor */
 .frete-opcao:hover {
   border-color: #8b0000;
   background-color: #fdf5f5;
 }
 
+/* Botão de rádio de seleção da modalidade de frete */
 .frete-opcao input[type='radio'] {
   margin-right: 15px;
   width: 18px;
@@ -254,24 +291,28 @@
   accent-color: #8b0000;
 }
 
+/* Informações de tipo e prazo da entrega */
 .frete-info {
   flex-grow: 1;
   display: flex;
   flex-direction: column;
 }
 
+/* Nome da modalidade de envio */
 .frete-tipo {
   font-weight: bold;
   color: #111;
   font-size: 1rem;
 }
 
+/* Prazo estimado da entrega */
 .frete-prazo {
   font-size: 0.85rem;
   color: #666;
   margin-top: 4px;
 }
 
+/* Valor monetário da opção de frete */
 .frete-valor {
   font-weight: bold;
   color: #8b0000;
@@ -279,6 +320,7 @@
 }
 
 /* 4. SELETOR DE QUANTIDADE */
+/* Bloco de seleção de quantidade do produto */
 .controle-quantidade {
   display: flex;
   align-items: center;
@@ -288,17 +330,20 @@
   border-radius: 6px;
 }
 
+/* Caixa auxiliar de sombra para seletor de quantidade */
 .quantidade-box {
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
   border-radius: 6px;
 }
 
+/* Rótulo "Quantidade:" */
 .qtd-label {
   font-weight: bold;
   color: #333;
   font-size: 1rem;
 }
 
+/* Container dos botões '-' e '+' junto ao visor numérico */
 .qtd-seletor {
   display: flex;
   align-items: center;
@@ -307,6 +352,7 @@
   overflow: hidden;
 }
 
+/* Botões de incremento e decremento de quantidade */
 .btn-qtd {
   background-color: #f8f9fa;
   border: none;
@@ -318,10 +364,12 @@
   transition: background-color 0.2s;
 }
 
+/* Fundo levemente escurecido no hover dos botões '-' e '+' */
 .btn-qtd:hover {
   background-color: #e9ecef;
 }
 
+/* Campo somente leitura que mostra a quantidade atual */
 .input-qtd {
   width: 50px;
   height: 40px;
@@ -335,6 +383,7 @@
 }
 
 /* 5. BOTÕES DE COMPRA */
+/* Pilha vertical de ações de compra */
 .grupo-botoes {
   display: flex;
   flex-direction: column;
@@ -342,6 +391,7 @@
   margin-bottom: 10px;
 }
 
+/* Botão secundário para adicionar item ao carrinho */
 .btn-carrinho {
   background-color: #ffffff;
   color: #111;
@@ -354,10 +404,12 @@
   transition: background-color 0.2s;
 }
 
+/* Hover do botão de adicionar ao carrinho */
 .btn-carrinho:hover {
   background-color: #f1f1f1;
 }
 
+/* Botão principal verde para compra imediata */
 .btn-comprar-agora {
   background-color: #27ae60;
   color: #fff;
@@ -371,10 +423,12 @@
   box-shadow: 0 4px 6px rgba(39, 174, 96, 0.3);
 }
 
+/* Hover do botão comprar agora */
 .btn-comprar-agora:hover {
   background-color: #219150;
 }
 
+/* Selo/aviso de segurança abaixo dos botões de compra */
 .seguranca {
   margin-top: 15px;
   font-size: 0.85rem;
@@ -382,6 +436,7 @@
   text-align: center;
 }
 
+/* Estilos alternativos para blocos de informação de detalhe */
 .detalhe-info {
   h1,
   h2 {
@@ -411,6 +466,7 @@
   }
 }
 
+/* Seletor de cores em formato de botões/chips */
 .seletor-cores {
   margin: 16px 0;
   display: flex;
@@ -459,6 +515,7 @@
   }
 }
 
+/* Legenda discreta abaixo da foto alertando sobre fotos ilustrativas */
 .aviso-foto {
   font-size: 0.78rem;
   color: #777;
@@ -467,6 +524,7 @@
   margin-top: 8px;
 }
 
+/* Lista vertical de opções/variações ou cores do produto */
 .bloco-opcoes {
   display: flex;
   flex-direction: column;
@@ -474,6 +532,7 @@
   margin: 16px 0;
 }
 
+/* Cada item clicável de cor ou variação/kit */
 .opcao-cor {
   display: flex;
   align-items: center;
@@ -488,6 +547,7 @@
   transition: all 0.2s ease;
 }
 
+/* Cor de destaque dos inputs radio dentro das opções */
 .opcao-cor input[type='radio'] {
   accent-color: #8b1e1e;
   width: 16px;
@@ -495,6 +555,7 @@
   cursor: pointer;
 }
 
+/* Visual aplicado à opção atualmente marcada */
 .opcao-cor.selecionada {
   border-color: #8b1e1e;
   background-color: #fff5f5;
@@ -502,6 +563,7 @@
   box-shadow: 0 4px 12px rgba(139, 30, 30, 0.22);
 }
 
+/* Alinha rótulo e preço nas extremidades de cada opção de kit/tamanho */
 .texto-opcao {
   display: flex;
   justify-content: space-between;
@@ -509,6 +571,7 @@
   align-items: center;
 }
 
+/* Botão verde de atendimento direto via WhatsApp na página do produto */
 .btn-whatsapp-produto {
   display: flex;
   align-items: center;
@@ -530,11 +593,13 @@
   box-sizing: border-box;
 }
 
+/* Hover do botão de WhatsApp do produto */
 .btn-whatsapp-produto:hover {
   background-color: #168a41;
   transform: translateY(-1px);
 }
 
+/* Botão flutuante do WhatsApp no canto inferior direito */
 .whatsapp-flutuante {
   position: fixed;
   right: 22px;
@@ -555,23 +620,27 @@
     background-color 0.2s ease;
 }
 
+/* Tamanho do ícone SVG dentro do botão flutuante do WhatsApp */
 .whatsapp-flutuante svg {
   width: 65px;
   height: 70px;
   flex-shrink: 0;
 }
 
+/* Hover do botão flutuante do WhatsApp */
 .whatsapp-flutuante:hover {
   background-color: #1da851;
   transform: scale(1.06);
 }
 
+/* Fundo claro da página de detalhe do produto */
 .pagina-produto-detalhe {
   position: relative;
   background-color: #fbf8f1;
   padding-bottom: 0;
 }
 
+/* Padrão diagonal bege usado nas faixas decorativas */
 .faixa-trama {
   width: 100%;
   background-color: #f4edd9;
@@ -585,15 +654,15 @@
   pointer-events: none;
 }
 
+/* Bloco superior colado ao cabeçalho sem linha duplicada na tarja vermelha */
 .bloco-topo-fixo {
-  position: fixed;
-  top: 0;
-  left: 0;
+  position: relative;
   width: 100%;
-  z-index: 90;
-  background-color: #fbf8f1;
+  margin-top: 0;
+  background-color: transparent;
 }
 
+/* Faixa adesiva auxiliar caso utilizada no topo */
 .topo-fixo-produto {
   position: sticky;
   top: 0;
@@ -602,26 +671,33 @@
   background-color: #f4edd9;
 }
 
+/* Trama superior colada ao cabeçalho sem borda superior duplicada */
 .faixa-trama-topo {
+  position: relative;
+  z-index: 1;
   height: 2cm;
   margin-top: 0;
   margin-bottom: 0;
-  border-top: 2mm solid #c9a24d;
+  border-top: none;
+  border-bottom: none;
 }
 
+/* Desce e cola a trama inferior na faixa vermelha do rodapé com linha dourada de 2mm */
 .faixa-trama-base {
   height: 15mm;
-  margin-top: 0;
-  margin-bottom: -40px;
-  border-bottom: 2mm solid #c9a24d;
+  margin-top: 20px;
+  margin-bottom: 0;
+  border-top: none;
+  border-bottom: 2mm solid #c27e25;
 }
 
 /* 6. RESPONSIVIDADE (Telemóvel) */
+/* Adapta layout de colunas, margens e espaçamento em telas até 768px */
 @media (max-width: 768px) {
   .detalhe-container {
     grid-template-columns: 1fr;
     padding: 20px;
-    margin: 16px;
+    margin: 24px 16px 40px 16px;
   }
 
   .coluna-imagem,
@@ -634,11 +710,18 @@
   }
 
   .nav-superior {
-    margin-top: 30px;
-    margin-bottom: 5px;
+    z-index: 20;
+    margin: 0 auto;
+    padding: 0 16px;
+    height: 0;
+  }
+
+  .btn-voltar-vitrine {
+    top: 16px;
   }
 }
 
+/* Ajusta o tamanho e posição do botão do WhatsApp em telas muito estreitas */
 @media (max-width: 600px) {
   .whatsapp-flutuante {
     right: 16px;
@@ -653,6 +736,7 @@
   }
 }
 
+/* Caixa informativa de produção sob encomenda e prazo de até 48h úteis */
 .aviso-producao-produto {
   margin-top: 16px;
   padding: 10px 14px;

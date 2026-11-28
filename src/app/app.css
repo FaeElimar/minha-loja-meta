@@ -81,27 +81,16 @@
   line-height: 1.2;
 }
 
-/* Área central que ocupa o espaço entre cabeçalho e rodapé */
+/* Área central colada ao cabeçalho e ao rodapé sem espaço sobrando abaixo da trama */
 .conteudo-principal {
   min-height: calc(100vh - 160px);
-  padding-bottom: 40px;
+  padding-top: 0;
+  padding-bottom: 0;
 }
 
-/* Faixa decorativa com trama diagonal e borda dourada de 2mm acima do rodapé */
+/* Oculta a trama duplicada de baixo para manter apenas a trama superior colada ao rodapé vermelho */
 .trama-rodape {
-  width: 100%;
-  height: 15mm;
-  background-color: #f4edd9;
-  background-image: repeating-linear-gradient(
-    -45deg,
-    rgba(218, 202, 168, 0.55) 0,
-    rgba(218, 202, 168, 0.55) 2px,
-    transparent 2px,
-    transparent 12px
-  );
-  border-top: 2mm solid #c27e25;
-  pointer-events: none;
-  box-sizing: border-box;
+  display: none;
 }
 
 /* Rodapé global centralizado sem deslocamento lateral */
