@@ -22,7 +22,7 @@ import { ProdutoService, ProdutoMeta } from '../../services/produto';
       <!-- Link de retorno à vitrine sempre disponível -->
       <a routerLink="/" class="btn-voltar">← Voltar para a loja</a>
 
-      <!-- CAPA DE LOGIN: exibida enquanto o usuário não estiver autenticado -->
+      <!-- CAPA DE LOGIN: exibida enquanto o utilizador não estiver autenticado -->
       <div *ngIf="!autenticado" class="login-box">
         <h1>Acesso Restrito — 3DDesign</h1>
         <p class="subtitulo">Área administrativa para exportação do catálogo Meta Commerce.</p>
@@ -274,9 +274,8 @@ export class ExportarMetaComponent implements OnInit {
   // Chave usada no sessionStorage para manter o login enquanto a aba estiver aberta
   private readonly storageKey = '3ddesign_admin_auth';
 
-  // Hash SHA-256 da senha padrão: 3DDesign@2026
-  private readonly senhaHashEsperado =
-    'a2b86d422bb6ca2d3e9f61963fa7586b2a648601eb2c08660c749e33dc9dc64a';
+  // Senha definida para liberar a exportação do catálogo
+  private readonly senhaCorreta = 'Vi!@184546';
 
   // Controla se a capa de login ou o painel de exportação é exibido
   autenticado = false;
@@ -284,7 +283,7 @@ export class ExportarMetaComponent implements OnInit {
   // Armazena o texto digitado no campo de senha
   senhaDigitada = '';
 
-  // Exibe mensagem de erro se a senha estiver errada
+  // Exibe mensagem de erro caso a senha esteja errada
   erroLogin = false;
 
   // Lista dos 42 produtos carregados somente após login
@@ -301,20 +300,9 @@ export class ExportarMetaComponent implements OnInit {
     }
   }
 
-  // Gera o hash SHA-256 de uma string usando a Web Crypto API do navegador
-  private async gerarSha256(texto: string): Promise<string> {
-    const encoder = new TextEncoder();
-    const dados = encoder.encode(texto);
-    const hashBuffer = await crypto.subtle.digest('SHA-256', dados);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map((b) => b.toString(16).padStart(2, '0')).join('');
-  }
-
-  // Valida a senha digitada contra o hash armazenado
-  async verificarSenha(): Promise<void> {
-    const hashDigitado = await this.gerarSha256(this.senhaDigitada.trim());
-
-    if (hashDigitado === this.senhaHashEsperado) {
+  // Valida a senha digitada e libera os produtos em caso de acerto
+  verificarSenha(): void {
+    if (this.senhaDigitada.trim() === this.senhaCorreta) {
       this.autenticado = true;
       this.erroLogin = false;
       this.senhaDigitada = '';
