@@ -1,13 +1,20 @@
+<!-- Cabeçalho superior global exibido em todas as rotas da loja -->
 <header class="cabecalho-global">
+  <!-- Área da marca / logotipo principal -->
   <div class="logo-area">
     <h1>3DDesign</h1>
   </div>
-  <nav class="nav-global">
 
-    <!-- A mágica acontece aqui: routerLink em vez de href -->
+  <!-- Menu principal de navegação da loja -->
+  <nav class="nav-global" aria-label="Navegação principal">
+    <!-- A mágica acontece aqui: routerLink em vez de href para navegar sem recarregar a página -->
     <a routerLink="/" class="nav-link">Catálogo</a>
+
+    <!-- Links provisórios que disparam o alerta de seção em construção -->
     <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Sobre</a>
     <a href="#" (click)="alertaEmDesenvolvimento($event)" class="nav-link">Contato</a>
+
+    <!-- Atalho para a rota /carrinho mostrando a quantidade total de itens em tempo real -->
     <a routerLink="/carrinho" class="nav-link nav-carrinho">
       🛒 Carrinho
       <span class="badge">{{ carrinhoService.obterTotalItens() }}</span>
@@ -15,14 +22,26 @@
   </nav>
 </header>
 
+<!-- Área principal onde o Angular renderiza o componente da rota ativa (vitrine, detalhe ou carrinho) -->
 <main class="conteudo-principal">
   <router-outlet></router-outlet>
 </main>
 
+<!-- Faixa decorativa com trama diagonal e borda dourada de 2mm logo acima do rodapé -->
+<div class="trama-rodape" aria-hidden="true"></div>
+
+<!-- Rodapé global da loja com direitos autorais, aviso de produção e redes sociais -->
+<!-- Rodapé global da loja com direitos de autor, aviso de produção e redes sociais -->
+<!-- Rodapé global da loja com direitos autorais, aviso de produção e redes sociais -->
 <footer class="rodape-global">
+  <!-- Linha de copyright da marca -->
   <p>&copy; 2026 3DDesign. Todos os direitos reservados.</p>
+
+  <!-- Aviso sobre produção artesanal sob encomenda e prazos -->
   <p class="aviso-producao-rodape">
-    Produção artesanal sob encomenda: impressão 3D e acabamento após confirmação do pedido (peças grandes até 48h
-    úteis).
+    Produção artesanal sob encomenda: impressão 3D e acabamento após confirmação do pedido (peças grandes até 48h úteis).
   </p>
+
+  <!-- Componente reutilizável com @fcgaragepaint, @elimarfae, Facebook e botões de compartilhar -->
+  <app-social-links />
 </footer>

@@ -457,34 +457,6 @@
     font-size: 0.95rem;
     color: #222;
   }
-
-  .opcao-cor {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 12px;
-    border: 1px solid #d0d0d0;
-    border-radius: 6px;
-    cursor: pointer;
-    font-size: 0.9rem;
-    background: #fff;
-    transition:
-      border-color 0.2s,
-      background-color 0.2s;
-
-    input[type='radio'] {
-      accent-color: #a61c1c;
-      width: 16px;
-      height: 16px;
-      cursor: pointer;
-    }
-
-    &.selecionada {
-      border-color: #a61c1c;
-      background-color: #fdf2f2;
-      font-weight: 600;
-    }
-  }
 }
 
 .aviso-foto {
@@ -510,14 +482,23 @@
   border: 1px solid #d4d4d4;
   border-radius: 8px;
   background: #fff;
+  font-size: 0.9rem;
   box-shadow: 0 3px 10px rgba(0, 0, 0, 0.14);
   cursor: pointer;
   transition: all 0.2s ease;
 }
 
+.opcao-cor input[type='radio'] {
+  accent-color: #8b1e1e;
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+}
+
 .opcao-cor.selecionada {
   border-color: #8b1e1e;
   background-color: #fff5f5;
+  font-weight: 600;
   box-shadow: 0 4px 12px rgba(139, 30, 30, 0.22);
 }
 
@@ -606,7 +587,7 @@
 
 .bloco-topo-fixo {
   position: fixed;
-  top: 60px;
+  top: 0;
   left: 0;
   width: 100%;
   z-index: 90;
@@ -623,7 +604,7 @@
 
 .faixa-trama-topo {
   height: 2cm;
-  margin-top: -55px;
+  margin-top: 0;
   margin-bottom: 0;
   border-top: 2mm solid #c9a24d;
 }
@@ -639,7 +620,6 @@
 @media (max-width: 768px) {
   .detalhe-container {
     grid-template-columns: 1fr;
-    flex-direction: column;
     padding: 20px;
     margin: 16px;
   }
@@ -683,4 +663,3 @@
   line-height: 1.45;
   color: #4a3535;
 }
-

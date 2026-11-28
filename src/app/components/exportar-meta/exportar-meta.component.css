@@ -1,0 +1,27 @@
+/* Contentor centralizado da tela de exportação */
+.exportar-meta-box {
+  max-width: 720px;
+  margin: 32px auto;
+  padding: 24px;
+  border-radius: 8px;
+  background-color: #f4edd9;
+  border: 1px solid #c27e25;
+  color: #2b1a14;
+}
+
+/* Botão principal para baixar o arquivo CSV */
+.btn-baixar-csv {
+  margin-top: 12px;
+  padding: 10px 18px;
+  background-color: #8b0000;
+  color: #ffffff;
+  border: none;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+
+/* Escurece ligeiramente ao passar o mouse */
+.btn-baixar-csv:hover {
+  background-color: #6e0000;
+}
